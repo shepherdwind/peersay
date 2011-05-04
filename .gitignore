@@ -1,0 +1,13 @@
+assets/js/backbone/
+assets/js/ICanHaz.js/
+assets/js/libs/
+assets/js/mustache/
+assets/js/underscore/
+assets/js/seajs/
+assets/js/seajs.js
+min/
+system/
+index.php
+license.txt
+application/cache/
+application/logs/

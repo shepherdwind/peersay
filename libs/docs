@@ -1,0 +1,11 @@
+实现步骤
+1. 实现数据模型
+
+user( userId, uName, uPassword, uType);
+test( testId, tDescribe, tTitle);
+topic(topicId, testId, tocTitle, tocMax, tocMin, tocCustom);
+answer( answerId, aOwner, aChoose, aRefuse, topicId);
+
+2. 实现用户控制部分
+
+2.1 添加学生
