@@ -45,7 +45,7 @@
             <dd>
             <a href="{{href}}">{{title}}</a>
             </dd>
-            {{items/}}
+            {{/items}}
             {{/nav}}
           </dl>
         </div>
