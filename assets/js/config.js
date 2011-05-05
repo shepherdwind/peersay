@@ -10,15 +10,15 @@ define({
         content : 'none',
         nav     : [
             { 
-                title : '标题1',
+                title : '测验信息',
                 items :[
-                    { href: '#link3', title : '链接1'},
+                    { href: '#addTest', title : '添加测验'},
                     { href: '#link2', title : '链接2'},
                     { href: '#link1', title : '链接3'}
                 ]
             },
             { 
-                title : '标题',
+                title : '系统设置',
                 items :[
                     { href: '#link5', title : '链接1'},
                     { href: '#link6', title : '链接2'},

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `peer_ci_sessions`;
 CREATE TABLE IF NOT EXISTS  `peer_ci_sessions` (
   session_id varchar(40) DEFAULT '0' NOT NULL,
   ip_address varchar(16) DEFAULT '0' NOT NULL,
@@ -7,26 +8,48 @@ CREATE TABLE IF NOT EXISTS  `peer_ci_sessions` (
   PRIMARY KEY (session_id)
 );
 
-CREATE TABLE peer_test(
-  testId INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+DROP TABLE IF EXISTS `peer_tests`;
+CREATE TABLE peer_tests(
+  id INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+  created DATETIME NULL,
+  updated DATETIME NULL,
   tDescribe TEXT NOT NULL COMMENT '测试描述',
-  tTitle VARCHAR ( 150 ) NOT NULL COMMENT '文件标题'
+  tTitle VARCHAR ( 150 ) NOT NULL COMMENT '标题'
 );
 
-CREATE TABLE peer_topic(
-  topicId INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
-  testId  INT( 10 ) NOT NULL,
+DROP TABLE IF EXISTS `peer_topics`;
+CREATE TABLE peer_topics(
+  id INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
   tocTitle VARCHAR ( 150 ) NULL,
-  tocMax  SMALLINT( 1 ),
-  tocMin  SMALLINT( 1 ),
-  index testId(testId)
+  tocMax  SMALLINT( 1 ) NULL,
+  tocMin  SMALLINT( 1 ) NULL,
+  test_id INT( 10 ) NULL
 );
 
-CREATE TABLE peer_answer(
-  answer INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+DROP TABLE IF EXISTS `peer_answers`;
+CREATE TABLE peer_answers(
+  id INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+  created DATETIME NULL,
+  updated DATETIME NULL,
   aChoose VARCHAR( 200 ) NULL COMMENT '接受，用户之间用,分割',
   aRefuse VARCHAR( 200 ) NULL COMMENT '拒绝，用户之间用,分割',
-  aOwner INT( 10 ) NOT NULL COMMENT '用户id',
-  topicId INT( 10 ) NOT NULL COMMENT '题目id',
-  index aOwner(aOwner) topicId(topicId)
+  topic_id INT( 10 ) NULL,
+  user_id INT( 10 ) NULL
 );
+
+DROP TABLE IF EXISTS `peer_users`;
+CREATE TABLE peer_users(
+  id INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+  uName VARCHAR( 100 ) NOT NULL,
+  uStudId INT( 12 ) NULL COMMENT '学号',
+  uPassword VARCHAR( 40 ) NOT NULL,
+  uType ENUM('research','admin','student','messenger') DEFAULT 'student'
+);
+
+/**关系表**/
+DROP TABLE IF EXISTS `peer_tests_users` ;
+CREATE TABLE peer_tests_users (
+  id INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
+  test_id INT( 10 ) NULL,
+  user_id INT( 10 ) NULL
+)
