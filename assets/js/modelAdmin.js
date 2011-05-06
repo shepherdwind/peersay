@@ -10,8 +10,8 @@ define(function(require,exports, module){
         success  : function (data) {
             var html  = Mustache.to_html(data, config);
             content.html(html);
-            module.load('app/test.js', function (b) {
-                console.log(b);
+            module.load('app/uri.js', function (Controller) {
+                var uriController = new Controller();
             });
         },
         dataType : 'html'

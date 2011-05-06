@@ -1,5 +1,5 @@
-;
 define(function(require,exports){
+    
     var Mustache = require('libs/mustache'),
         _        = require('libs/underscore'),
         $        = require('libs/jquery'),
@@ -32,15 +32,14 @@ define(function(require,exports){
             initialize : function () {
                 _.bindAll( this, 'render', 'delete' );
                 this.model.bind('change', this.render);
+                this.model.view  = this;
             },
             render     : function () {
                 $(this.el).html(Mustache.to_html(this.model.toJSON(), this.template));
             },
             delete     : function () {
-                console.log(arguments);
             },
             edit       : function () {
-                console.log(arguments);
             }
         });
 
