@@ -1,4 +1,4 @@
-define(function(require,exports){
+define(function(require,exports, module){
 
     var config   = require('config'),
         $        = require('libs/jquery'),
@@ -10,6 +10,9 @@ define(function(require,exports){
         success  : function (data) {
             var html  = Mustache.to_html(data, config);
             content.html(html);
+            module.load('app/test.js', function (b) {
+                console.log(b);
+            });
         },
         dataType : 'html'
     });

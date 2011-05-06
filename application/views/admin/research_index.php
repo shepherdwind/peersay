@@ -9,5 +9,7 @@
   <body class="w866">
     <div class="wrap" id="wrap">
     </div>
+    <div id="test-list"></div>
+    <div id="tests"></div>
   </body>
 </html>
