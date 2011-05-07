@@ -6,13 +6,13 @@ define(function(require,exports){
         Backbone = require('libs/backbone');
 
     var Test     = Backbone.Model.extend({
-            default : {
+            defaults : {
                 tDescribe : '测验描述',
                 tTitle    : '测验标题'
             },
-            initialize: function () {
-                if ( !this.get('tTitle') ) {
-                    this.set(this.default);
+            initialize : function () {
+                if ( ! this.get('tTitle') ) {
+                    this.set( this.defaults );
                 }
             }
 
@@ -37,18 +37,14 @@ define(function(require,exports){
             render     : function () {
                 $(this.el).html(Mustache.to_html(this.model.toJSON(), this.template));
             },
-            delete     : function () {
+            del        : function () {
             },
             edit       : function () {
             }
         });
 
-    Backbone.sync = function () {
-        console.log(arguments);
-    };
-    var test1 = new Test({
-        'tTitle' : '测试'
-    });
-    exports.tests = new TestList;
-    test1.save();
+    exports.Test = Test;
+    exports.TestList = TestList;
+    exports.TestView = TestView;
+
 });
