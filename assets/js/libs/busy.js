@@ -155,7 +155,8 @@ define('busy',[],function (require, exports, module) {
                 else {ctrl=getBusy(canvas,busy['color'],busy['size'],busy['type'],busy['iradius'],busy['weight'],busy['count'],busy['speed'],busy['minopac']); ctrl.start();}
                 if(isIE) {parent.onresize=onIEWinResize; if(parent.id=='viewport'&&!window.XMLHttpRequest) {window.onresize=onIEVPResize; window.onscroll=onIEVPScroll;}}
                 return {
-                    remove: function (){if(waiting){waiting=false; ctrl.stop(); delete ctrl; parent.removeChild(outer); if(parent.id=='viewport') {parent.style.display='none';}}},
+                    remove: function (){if(waiting){waiting=false; ctrl.stop(); delete ctrl; 
+                        try {parent.removeChild(outer);} catch (e) { /*alert(e); ie中报错，dom not found */ } if(parent.id=='viewport') {parent.style.display='none';}}},
                     settext: function (v){if(string&&typeof(v)=='string') {string.firstChild.innerHTML=v; return false;}}
                 };
             }

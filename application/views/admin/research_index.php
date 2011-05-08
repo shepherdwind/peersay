@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="min/?f=assets/css/common.css,assets/css/reset.css,assets/css/grids.css,assets/css/admin_base.css" />
+    <link rel="stylesheet" href="min/?f=assets/css/common.css,assets/css/reset.css,assets/css/grids.css,assets/css/admin_base.css,assets/css/ui-Aristo/jquery-ui.css,assets/css/form_add.css,assets/css/table.css" />
     <script src="assets/js/sea.js" type="text/javascript" data-main="init"></script>
   </head>
   <body class="w866">

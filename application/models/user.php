@@ -5,7 +5,10 @@ class User extends DataMapper {
     public $has_many = array('test');
 
     public $validation = array(
-        'uName' => array('required','trim','unique','max-length' => 100)
+        'uName' => array(
+            'label' => 'user name',
+            'rules' => array('required','trim','unique','max-length' => 100)
+        )
     );
 
     function getUser()

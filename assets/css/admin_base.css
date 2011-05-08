@@ -6,6 +6,7 @@ a{
   color:#A9725D;
   color:#448378;
   color:chocolate;
+  color: #6678B1;
   text-decoration:none;
 }
 a:hover{
@@ -35,17 +36,17 @@ body{
 #content .col-main{
 }
 .grid-s240m0 .col-sub{
-  margin-left:-100%;
-  width:218px;
+  margin-left: -227px;
+  width: 225px;
   background-color:#F2D9A3;
   border:solid 1px #A88768;
-  background-color:LemonChiffon;
-  border:solid 1px #F2D9A3;
+  background-color:#F4F8FD;
+  border:solid 1px #D2DBF4;
   zoom:1;
 }
 .grid-s240m0 .main-wrap{
-  margin-left:218px;
-  border-top:solid 1px #F2D9A3;
+  margin-right:227px;
+  border-top:solid 1px #D2DBF4;
   padding: 1em;
 }
 
@@ -54,7 +55,8 @@ body{
  */
 #header{
   font-size:14px;
-  padding:1em;
+  padding: 0.5em 0;
+  text-align: right;
 }
 #logo{
   font-size:16px;
@@ -62,12 +64,12 @@ body{
 }
 #top-nav{
   position:absolute;
-  right:2em;
+  left : 1em;
   bottom:3px;
 }
 #top-nav li{
   float:left;
-  padding-left:1em;
+  padding-right: 4px;
 }
 
 .left-nav{

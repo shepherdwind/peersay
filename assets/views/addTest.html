@@ -2,15 +2,15 @@
   <form action="#addAction" method="post">
     <div class="item">
     	<label for="tTitle">测验题目</label>
-    	<input type="text" id="tTitle" name="tTitle"/>
+      <input type="text" id="tTitle" name="tTitle" value="{{tTitle}}"/>
     </div>
-    <div class="item">
-      <label for="tDescribe" class="for-textarea">测验描述</label>
-      <textarea id="tDescribe" name="tDescribe"></textarea>
+    <div class="item for-textarea">
+      <label for="tDescribe">测验描述</label>
+      <textarea id="tDescribe" name="tDescribe">{{tDescribe}}</textarea>
     </div>
-    <div class="item">
-    	<input type="submit" value="添加" />
-    	<input type="reset" value="重置" />
+    <div class="item button">
+      <a href="#" class="submit">完成</a>
+      <a href="#" class="reset">重置</a>
     </div>
   </form>
 </div>

@@ -1,0 +1,21 @@
+.test-list thead th {
+  border-bottom: 2px solid #6678B1;
+  color: #003399;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 10px 8px;
+  text-align: left; 
+}
+.test-list tbody td {
+  color: #666699;
+  padding: 9px 8px 0;
+}
+.test-list tbody tr:hover td {
+  color: #000099;
+}
+.test-list {
+  width: 95%;
+}
+
+.test-list .tTitle { width: 30%; }
+.test-list .tDescribe { width: 50%; }

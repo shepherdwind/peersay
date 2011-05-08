@@ -29,16 +29,14 @@
 
     <div class="col-sub">
       <div class="sub-wrap">
-        <dl class="left-nav">
-          {{#nav}}
-          <dt>{{title}}</dt>
-          {{#items}}
-          <dd>
-          <a href="{{href}}">{{title}}</a>
-          </dd>
-          {{/items}}
-          {{/nav}}
-        </dl>
+        <div class="left-nav">
+          {{#aside}}
+            <dt>{{title}}</dt>
+            {{#items}}
+              <dd>{{section}}</dd>
+            {{/items}}
+          {{/aside}}
+        </div>
       </div>
     </div>
 
