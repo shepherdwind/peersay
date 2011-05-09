@@ -1,6 +1,6 @@
 <?php
 
-class Tests extends CI_Controller {
+class Topics extends CI_Controller {
     
     public function __construct()
     {
@@ -9,14 +9,14 @@ class Tests extends CI_Controller {
 
     public function index ($id)
     {
-        $t = new Test();
+        $t = new Topic();
         $t->get_by_id(13);
         echo $t->to_json();
     }
 
     public function edit ($id = 0)
     {
-        $obj = new Test();
+        $obj = new Topic();
         $obj->get_by_id( (int)$id );
 
         if( !$_POST)
@@ -43,7 +43,7 @@ class Tests extends CI_Controller {
 
     function lists()
     {
-        $t = new Test();
+        $t = new Topic();
         $t->get();
         //datamapper的json扩展真是强大
         echo $t->all_to_json();
@@ -51,8 +51,7 @@ class Tests extends CI_Controller {
 
     function addNew ()
     {
-        $this->_create(json_decode($_POST['model']) );
-        $test = new Test();
+        $test = new Topic();
         $test->from_json($_POST['model']);
         if( $test->save() )
         {

@@ -12,8 +12,13 @@ define(function(require,exports, module){
             var html  = Mustache.to_html(data, config);
             content.html(html);
             content.find('#top-nav a').button();
-            module.load('app/controllers/test', function (Controller) {
-                var uriController = new Controller();
+
+            var controllers = ['app/controllers/test', 'app/controllers/topic', 'app/controllers/user', 'app/controllers/answer' ];
+            module.load( controllers , function (TestController, TopicController, UserController,AnswerController ) {
+                new TestController();
+                new TopicController();
+                new UserController();
+                new AnswerController();
                 Backbone.emulateHTTP = true;
                 Backbone.emulateJSON = true;
                 Backbone.history.start();

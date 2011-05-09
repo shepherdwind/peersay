@@ -3,7 +3,7 @@ define({
         topnav : [
             { url  : '#', title: '首页' },
             { url  : '#tests/addNew', title : '添加测验'},
-            { url  : '#tests/lists', title : '查看所有'}
+            { url  : '#tests/lists', title : '所有测验'}
         ],
         welcome : '欢迎登录',
         content : 'none',

@@ -1,0 +1,36 @@
+<div class="accordion">
+  <table class="test-list">
+    <thead>
+      <tr>
+        <th>姓名</th>
+        <th>学号</th>
+        <th>用户类型</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th colspan="4">
+          <a href="#users/addNew" class="add-items">添加被试</a>
+          <a href="#users/group" class="group">批量添加</a>
+          <a href="#topics/lists/" class="list-items">回到测试</a>
+        </th>
+      </tr>
+    </tfoot>
+    <tbody>
+    {{#collection}}
+      <tr class="test-item-{{id}}">
+        <td class="uName">{{uName}}</td>
+        <td class="uStudId">{{uStudId}}</td>
+        <td class="uType">{{uType}}</td>
+        <td class="opration">
+          <a href="#users/{{id}}" class="edit">修改</a>
+          <a href="#" data-id="{{id}}" class="del">删除</a>
+        </td>
+      </tr>
+    {{/collection}}
+    </tbody>
+
+  </table>
+  
+</div>

@@ -1,4 +1,4 @@
-.test-list thead th {
+.test-list thead th, .test-list tfoot th {
   border-bottom: 2px solid #6678B1;
   color: #003399;
   font-size: 14px;
@@ -6,9 +6,14 @@
   padding: 10px 8px;
   text-align: left; 
 }
+.test-list tfoot th {
+  border-bottom: none;
+  border-top: 2px solid #6678B1;
+  text-align: left;
+}
 .test-list tbody td {
   color: #666699;
-  padding: 9px 8px 0;
+  padding: 5px 8px;
 }
 .test-list tbody tr:hover td {
   color: #000099;
@@ -19,3 +24,20 @@
 
 .test-list .tTitle { width: 30%; }
 .test-list .tDescribe { width: 50%; }
+
+#user-content li {
+  float: left;
+  margin: 0 4px 4px;
+}
+#user-content .ui-button-text {
+  width: 4em;
+}
+#user-content a {
+  cursor: move;
+}
+#user-content .selected {
+  min-height: 20px;
+  _height: 20px;
+  padding: 1em;
+  border: 1px dotted #444;
+}

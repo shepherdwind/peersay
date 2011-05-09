@@ -5,13 +5,12 @@ define(function (require, exports, module) {
         $          = require('libs/jqueryui'),
         Busy       = require('libs/busy'),
         Mustache   = require('libs/mustache');
-        //Test       = require('app/models/test.js'),
-        //TestList   = require('app/models/tests.js');
 
      module.exports    = Backbone.View.extend({
         events    : {
             "click .submit" : "save",
-            "click .reset"  : "reset"
+            "click .reset"  : "reset",
+            "click .user-content a" : "select"
         },
         initialize : function () {
             //_.bindAll(this,'render');
@@ -22,20 +21,27 @@ define(function (require, exports, module) {
             this.$("form")[0].reset();
             return false;
         },
+        select     : function () {
+            
+            return false;
+        },
         render     : function () {
             var self  = this,
-                url   = 'assets/views/addTest.html',
-                content = $("#main-wrap");
+                url   = 'assets/views/editAnswer.html',
+                content = $("#content");
 
             //显示加载状态
-            this._dealLoad(content[0], 'addViewLoad');
 
             //加载view
             $.get( url, function (data) {
                 $(self.el).html(Mustache.to_html(data, self.model.toJSON() ) );
-                self.$(".button a").button();
+                self.$(".user-content a").button();
+                self.$("#user-content .unselected, #user-content .selected").sortable({
+                    connectWith: ".connected"
+                });
                 content.html(self.el);
-                self.trigger('addViewLoad');
+                //加载结束,在控制器中开始调用加载提示
+                self.trigger('loaded');
             });
         },
         /**
@@ -44,17 +50,20 @@ define(function (require, exports, module) {
          */
         save      : function () {
             var self = this;
-            this._dealLoad(self.el,'saveTest');
+            //开始显示加载状态
+            this.onloading(self.el);
 
             var data = {
-                tTitle    : this.$('[name=tTitle]').val(),
-                tDescribe : this.$('[name=tDescribe]').val()
+                tocTitle  : this.$('#tocTitle').val() ,
+                tocMin    : parseInt(this.$('#tocMin').val(), 10 ) || 0,
+                tocMax    : parseInt(this.$('#tocMax').val(), 10 ) || 1
             };
 
-            var message = this.model.isNew() ? "成功创建测试" : "修改成功";
+            var message = this.model.isNew() ? "成功创建项目" : "修改成功";
             this.model.save(data,
             {
                 success   : function () {
+                    console.log(arguments);
                     var json = {};
                     json.message = message;
 
@@ -62,20 +71,20 @@ define(function (require, exports, module) {
                         text   : '好了,就这样吧',
                         click  : function () { 
                             $(this).dialog("close");
-                            self.trigger('testSaved','tests/lists');
+                            self.trigger('saved','answers/lists');
                         }
                     },
                     {
-                        text   : '继续修改',
+                        text   : '添加新项目',
                         click : function () {
                             $(this).dialog("close");
+                            self.trigger('saved','answers/addNew');
                         }
                     }];
 
                     self._tips('success', json);
                 },
                 error     : function (model,error) {
-                    console.log(arguments);
                     self._tips('error', error );
                 }
             });
@@ -89,10 +98,12 @@ define(function (require, exports, module) {
          * @param event String 加载完成的事件
          * @param obj   Object 绑定事件的对象
          */
-        _dealLoad : function (node, event, obj) {
+        onloading : function (node, event, obj) {
             var loading = Busy(node);
 
             obj = obj || this;
+            event = event || 'loaded';
+
             obj.bind(event, function () {
                 loading.remove();
             });
@@ -101,11 +112,11 @@ define(function (require, exports, module) {
             var self = this;
             module.load('app/tips', function (Tips) {
                 var tip = new Tips({'position': ['center',100]});
-                self.trigger("saveTest");
-                if( type === 'error' )
-                    tip.error(message);
-                else
-                    tip.success(message);
+
+                //结束加载状态
+                self.trigger("loaded");
+                if( type in tip )
+                    tip[type](message);
 
                 tip = undefined;
             });

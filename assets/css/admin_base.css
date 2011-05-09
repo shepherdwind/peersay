@@ -21,7 +21,7 @@ a:focus{
 /*
  * 修复ie6显示的bug
  */
-body{
+#wrap {
   width:866px;
   margin:0 auto;
 }
@@ -73,7 +73,7 @@ body{
 }
 
 .left-nav{
-  margin:3em 0 4em 3em;
+  margin: 1em;
 }
 .left-nav a{
   line-height:2em;

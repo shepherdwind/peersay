@@ -2,44 +2,47 @@ define(function (require, exports, module) {
     
     var _          = require('libs/underscore'),
         Backbone   = require('libs/backbone'),
-        AddView    = require('app/views/test'),
-        Test       = require('app/models/test'),
-        TestList   = require('app/models/tests'),
-        TestListView = require('app/views/tests');
+        AddView    = require('app/views/topic'),
+        Topic       = require('app/models/topic'),
+        TopicList   = require('app/models/topics'),
+        TopicListView = require('app/views/topics');
 
      module.exports    = Backbone.Controller.extend({
         routes    : {
-            "tests/addNew"  : "addTestView",
-            "tests/lists"   : "listTests",
-            "tests/:id"     : "edit"
+            "topics/addNew"  : "addTopicView",
+            "topics/lists/:id"   : "listTopics",
+            "topics/:id"     : "edit"
         },
-        addTestView : function () {
-            var view = new AddView({ model: new Test(), controllers: this });
-            this._bindTestSave(view);
+        addTopicView : function () {
+            var view = new AddView({ model: new Topic(), controllers: this });
+            this._bindTopicSave(view);
         },
-        _bindTestSave : function (view) {
+        _bindTopicSave : function (view) {
             var self = this;
-            view.bind('testSaved', function (url) {
+            view.bind('saved', function (url) {
                 Backbone.history.saveLocation(url);
-                self.listTests();
+                if( url.indexOf('lists') > -1)
+                    self.listTopics();
+                else
+                    self.addTopicView();
             });
         },
         edit        : function ( id ) {
-            var T  = new Test({ id : id, controllers : this });
+            var T  = new Topic({ id : id, controllers : this });
             var self = this;
             T.fetch({
                 success : function () {
                     var view = new AddView({ model: T });
-                    self._bindTestSave(view);
+                    self._bindTopicSave(view);
                 },
                 error   : function () {
                     alert("获取数据错误，请联系管理员。");
                 }
             });
         },
-        listTests    : function () {
-            var Ts = new TestList();
-            var listView = new TestListView();
+        listTopics    : function (id) {
+            var Ts = new TopicList();
+            var listView = new TopicListView();
             listView.onloading(document.body, 'loaded');
             Ts.fetch({
                 success : function () {

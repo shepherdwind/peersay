@@ -62,7 +62,7 @@ define(function (require, exports, module) {
             var html = '<div class="ui-state-error ui-corner-all ui-tips"><p><span class="ui-icon ui-icon-alert"></span>{{error}}</p></div>';
             this.setContent(html, { error: error});
             
-            var config = this.config;
+            var config = _.clone(this.config);
             config.title = '错误提示';
             config.buttons = {};
             this.content.dialog(config);
@@ -71,9 +71,19 @@ define(function (require, exports, module) {
             var html = '<div class="ui-corner-all ui-tips"><p><span class="ui-icon ui-icon-check"></span>{{message}}</p></div>';
             this.setContent(html, json);
 
-            var config = this.config;
+            var config = _.clone(this.config);
             config.title = '操作成功';
             config.buttons = json.buttons;
+            this.content.dialog(config);
+        },
+        confirm   : function ( json) {
+            var html = '<div class="ui-corner-all ui-tips"><p><span class="ui-icon ui-icon-info"></span>{{message}}</p></div>';
+            this.setContent(html, json);
+
+            var config     = _.clone(this.config);
+            config.title   = "确认操作";
+            config.buttons = json.buttons;
+            config.modal   = true;
             this.content.dialog(config);
         }
     });

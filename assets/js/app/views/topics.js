@@ -5,7 +5,7 @@ define(function (require, exports, module) {
         $          = require('libs/jqueryui'),
         Mustache   = require('libs/mustache'),
         Busy       = require('libs/busy'),
-        Test       = require('app/models/test');
+        Topic      = require('app/models/topic');
 
      module.exports    = Backbone.View.extend({
         events    : {
@@ -40,7 +40,7 @@ define(function (require, exports, module) {
         },
         render     : function () {
             var self  = this,
-                url   = 'assets/views/listTests.html',
+                url   = 'assets/views/listTopics.html',
                 content = $("#main-wrap");
 
             //显示加载状态
@@ -48,7 +48,7 @@ define(function (require, exports, module) {
             //加载view
             $.get( url, function (data) {
                 var config = { collection : self.collection.toJSON() };
-                $(self.el).html( Mustache.to_html(data, { collection : self.collection.toJSON() }) );
+                $(self.el).html( Mustache.to_html(data, { collection : self.collection.toJSON() }) ).find("tfoot a").button();
                 content.html(self.el);
                 //触发加载完成事件
                 self.trigger('loaded');
@@ -56,7 +56,7 @@ define(function (require, exports, module) {
         },
         _delete   : function (id) {
             var self  = this,
-                model = new Test({ id : id });
+                model = new Topic({ id : id });
 
             model.destroy({
                 success : function () {

@@ -1,7 +1,9 @@
-.addTest .item label { display: block; width: 5em; float: left; }
-.addTest .item { padding-bottom: 6px; }
-.item input { padding: 4px; width: 30em; }
-.item textarea { width: 30em; height: 10em; }
+form .item label, form .u-types { display: block; width: 5em; float: left; }
+.editTopic .item label { width: 6em; }
+
+form .item, form .type-radios { padding-bottom: 6px; }
+.item input { padding: 4px; width: 40em; }
+.item textarea { width: 40em; height: 10em; }
 .ui-tips .ui-icon { display: inline-block; *display: inline; *zoom: 1; vertical-align: text-bottom; }
 
 .opration-bar { position: absolute; }

@@ -25,3 +25,19 @@ if ( ! function_exists( 'json_decode' ) )
         return $CI->json->decode($var);
     }
 }
+
+//str_getcsv在PHP5.3以上才有
+if (!function_exists('str_getcsv')) {
+
+    function str_getcsv($input, $delimiter=',', $enclosure='"', $escape=null, $eol=null) {
+        $temp=fopen("php://memory", "rw");
+        fwrite($temp, $input);
+        fseek($temp, 0);
+        $r = array();
+        while (($data = fgetcsv($temp, 4096, $delimiter, $enclosure)) !== false) {
+            $r[] = $data;
+        }
+        fclose($temp);
+        return $r;
+    } 
+}

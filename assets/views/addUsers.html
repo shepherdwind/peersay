@@ -1,0 +1,30 @@
+<div class="col-main">
+  <div class="main-wrap" id="main-wrap">
+    <div class="add-users">
+      <form action="#" method="post">
+        <div class="item for-textarea">
+          <label for="group-users">批量数据</label>
+          <textarea id="group-users" name="users"></textarea>
+        </div>
+        <div class="item button">
+          <a href="#" class="submit">完成</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="col-sub">
+  <div class="sub-wrap">
+    <div class="left-nav">
+      {{#aside}}
+      <h3>{{title}}</h3>
+      <ol>
+      {{#items}}
+      <li>{{section}}</li>
+      {{/items}}
+      </ol>
+      {{/aside}}
+    </div>
+  </div>
+</div>

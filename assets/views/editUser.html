@@ -1,0 +1,40 @@
+<div class="edit-user">
+  <form action="#" method="post">
+    <div class="item">
+    	<label for="uName">姓名</label>
+      <input type="text" id="uName" name="uName" value="{{uName}}"/>
+    </div>
+    <div class="type-radios" id="u-type">
+      <label class="u-types">用户类型</label>
+      <div class="u-types-wrap">
+      {{#uTypes}}
+        <input type="radio" id="type-{{type}}" name="uType" value="{{type}}" {{#checked}}checked="checked"{{/checked}}/>
+        <label for="type-{{type}}" data-type="{{type}}">{{label}}</label>
+      {{/uTypes}}
+      </div>
+    </div>
+    <div class="item">
+    	<label for="uStudId">学号</label>
+      <input type="text" id="uStudId" name="uStudId" value="{{uStudId}}"/>
+    </div>
+    {{#isEdit}}
+    <div class="item">
+    	<label for="originPass">原密码</label>
+      <input type="originPass" id="originPass" name="originPass" value=""/>
+    </div>
+    {{/isEdit}}
+    <div class="item">
+    	<label for="uPassword">密码</label>
+      <input type="password" id="uPassword" name="uPassword" value=""/>
+    </div>
+    <div class="item">
+    	<label for="passRepeat">重复密码</label>
+      <input type="password" id="passRepeat" name="passRepeat" value=""/>
+    </div>
+    <div class="item button">
+      <a href="#" class="submit">完成</a>
+      <a href="#" class="reset">重置</a>
+      <a href="#users/lists/1" class="list">被试列表</a>
+    </div>
+  </form>
+</div>
