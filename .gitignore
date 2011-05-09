@@ -11,3 +11,4 @@ index.php
 license.txt
 application/cache/
 application/logs/
+*.swp
