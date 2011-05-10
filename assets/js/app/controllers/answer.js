@@ -25,14 +25,14 @@ define(function (require, exports, module) {
             });
         },
         answer         : function ( id ) {
-            id = parseInt(id, 10) || 1;
-            var T  = new Answer({ id : id, controllers : this });
+            id       = parseInt(id, 10) || 1;
+            var T    = new Answer({ id : id, controllers : this });
+            var view = new AddView({ model: T });
             var self = this;
+            view.onloading(document.body);
             T.fetch({
                 success : function () {
-                    console.log(T);
-                    var view = new AddView({ model: T });
-                    //view.loading(document.body, 'loaded');
+                    view.render();
                     self._bindAnswerSave(view);
                 },
                 error   : function () {

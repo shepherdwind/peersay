@@ -35,9 +35,35 @@
 #user-content a {
   cursor: move;
 }
-#user-content .selected {
+#user-content .ui-sortable-disabled a {
+  cursor: auto;
+}
+#user-content ul {
   min-height: 20px;
   _height: 20px;
   padding: 1em;
-  border: 1px dotted #444;
+  border-radius: 8px;
+  border: 1px dotted #D2DBF4;
+  margin-bottom: 10px;
+}
+.topic-content h3 {
+  font-size: 18px;
+  font-family: 微软雅黑, 黑体, arial;
+  margin: 10px 0;
+  text-indent: 1em;
+}
+.status-bar {
+  background-color: #F4F8FD;
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+}
+.status-bar a {
+  display: inline-block;
+}
+.status-bar em {
+  font-weight: bold;
+  color: OliveDrab;
 }

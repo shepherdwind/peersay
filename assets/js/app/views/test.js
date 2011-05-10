@@ -35,6 +35,9 @@ define(function (require, exports, module) {
                 $(self.el).html(Mustache.to_html(data, self.model.toJSON() ) );
                 self.$(".button a").button();
                 content.html(self.el);
+                module.load('libs/ckeditor/ckeditor',function () {
+                    CKEDITOR.replace("tDescribe");
+                }); 
                 self.trigger('addViewLoad');
             });
         },
@@ -45,10 +48,14 @@ define(function (require, exports, module) {
         save      : function () {
             var self = this;
             this._dealLoad(self.el,'saveTest');
+            var tDescribe = '';
+            if(CKEDITOR) {
+                tDescribe = CKEDITOR.instances.tDescribe.getData();
+            }
 
             var data = {
                 tTitle    : this.$('[name=tTitle]').val(),
-                tDescribe : this.$('[name=tDescribe]').val()
+                tDescribe : tDescribe || this.$('[name=tDescribe]').val()
             };
 
             var message = this.model.isNew() ? "成功创建测试" : "修改成功";
@@ -62,6 +69,7 @@ define(function (require, exports, module) {
                         text   : '好了,就这样吧',
                         click  : function () { 
                             $(this).dialog("close");
+                            CKEDITOR && CKEDITOR.instances['tDescribe'].destroy();
                             self.trigger('testSaved','tests/lists');
                         }
                     },

@@ -12,3 +12,9 @@ license.txt
 application/cache/
 application/logs/
 *.swp
+assets/js/libs/ckeditor/images/
+assets/js/libs/ckeditor/lang/
+assets/js/libs/ckeditor/plugins/
+assets/js/libs/ckeditor/skins/
+assets/js/libs/ckeditor/themes/
+assets/js/libs/ckeditor/ckeditor.js

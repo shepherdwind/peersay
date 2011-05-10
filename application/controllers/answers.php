@@ -22,6 +22,7 @@ class Answers extends CI_Controller {
         if( !$_POST)
         {
             $json = array_merge($obj->to_array(), $this->_get_test());
+            $json['aChoose'] = array('3');
             echo json_encode( $this->_filter($json) );
         }
         else if( isset($_POST['model']) AND $model = $_POST['model'] )
@@ -45,18 +46,21 @@ class Answers extends CI_Controller {
     protected function _get_test ()
     {
         $test = new Test();
-        $test->get_by_id(28);
+        $test->get_by_id(41);
         $json = array();
         $json['test'] = $this->_filter($test->to_array());
 
         $topics = new Topic();
         $topics->get();
         $json['topics'] = array();
+        $tocNumber      = 0;
 
         foreach( $topics->all_to_array() as $topic )
         {
             $json['topics'][] = $this->_filter($topic);
+            $tocNumber++;
         }
+        $json['topicNum'] = $tocNumber;
 
         $users = new User();
         $users->get();
