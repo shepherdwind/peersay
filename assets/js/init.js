@@ -1,1 +1,3 @@
-seajs.use('modelAdmin');
+seajs.use('app/app', function (App) {
+    new App();
+});

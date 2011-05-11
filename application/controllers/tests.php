@@ -2,9 +2,22 @@
 
 class Tests extends CI_Controller {
     
+    protected $_user;
+
     public function __construct()
     {
         parent::__construct();
+
+        if(!$this->session->userdata('id') > 0 OR $this->session->userdata("type") != "research" )
+        {
+            $message = array('error' => '没有权限');
+            echo json_encode($message);
+            exit();
+        }
+
+        $id = $this->session->userdata("id");
+        $this->_user = new User();
+        $this->_user->get_by_id($id);
     }
 
     public function index ($id)
@@ -28,6 +41,7 @@ class Tests extends CI_Controller {
             $obj->from_json($model);
             if( $obj->save() )
             {
+                $this->_user->save($obj);//保存关系
                 echo $obj->to_json();
             }
             else
@@ -37,14 +51,14 @@ class Tests extends CI_Controller {
         }
         else if (isset($_POST['_method']) AND $_POST['_method'] === 'DELETE' )
         {
+            $this->_user->delete($obj);
             $obj->delete();
         }
     }
 
     function lists()
     {
-        $t = new Test();
-        $t->get();
+        $t = $this->_user->test->get();
         //datamapper的json扩展真是强大
         echo $t->all_to_json();
     }

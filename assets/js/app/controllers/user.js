@@ -2,6 +2,7 @@ define(function (require, exports, module) {
     
     var _          = require('libs/underscore'),
         Backbone   = require('libs/backbone'),
+        $          = require('libs/jqueryui'),
         AddView    = require('app/views/user'),
         User       = require('app/models/user'),
         UserList   = require('app/models/users'),

@@ -7,7 +7,7 @@ class User extends DataMapper {
     public $validation = array(
         'uName' => array(
             'label' => 'user name',
-            'rules' => array('required','trim','unique','max-length' => 100)
+            'rules' => array('required','trim','max-length' => 100)
         )
     );
 

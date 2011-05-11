@@ -3,6 +3,7 @@
     <div id="logo">{{title}}</div>
 
     <div id="top-nav" class="ks-clear">
+
       <ul>
         {{#topnav}}
         <li>
@@ -23,7 +24,26 @@
 
     <div class="col-main">
       <div class="main-wrap" id="main-wrap">
-        {{content}}
+        <div class="article">
+          <h3>欢迎来到同伴提名测验平台</h3>
+          <p>请首先在此处登陆</p>
+          <form action="#" method="post">
+            <div class="item">
+              <label for="uName">用户名</label>
+              <input type="text" id="uName" name="uName" value="{{uName}}"/>
+            </div>
+
+            <div class="item">
+              <label for="uPassword">密码</label>
+              <input type="password" id="uPassword" name="uPassword" value=""/>
+            </div>
+            <div class="item button">
+              <a href="#" class="submit">完成</a>
+              <a href="#" class="reset">重置</a>
+            </div>
+          </form>
+
+        </div>
       </div>
     </div>
 
@@ -31,10 +51,10 @@
       <div class="sub-wrap">
         <div class="left-nav">
           {{#aside}}
-            <dt>{{title}}</dt>
-            {{#items}}
-              <dd>{{section}}</dd>
-            {{/items}}
+          <dt>{{title}}</dt>
+          {{#items}}
+          <dd>{{section}}</dd>
+          {{/items}}
           {{/aside}}
         </div>
       </div>

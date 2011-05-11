@@ -2,9 +2,22 @@
 
 class Answers extends CI_Controller {
     
+    protected $_user;
     public function __construct()
     {
         parent::__construct();
+
+        if(!$this->session->userdata('id') > 0 )
+        {
+            $message = array('error' => '没有权限');
+            echo json_encode($message);
+            exit();
+        }
+
+        $id = $this->session->userdata("id");
+        $this->_user = new User();
+        $this->_user->get_by_id($id);
+
     }
 
     public function index ($id)
@@ -14,20 +27,29 @@ class Answers extends CI_Controller {
         echo $t->to_json();
     }
 
-    public function edit ($id = 0)
+    public function edit ($step)
     {
         $obj = new Answer();
-        $obj->get_by_id( (int)$id );
 
         if( !$_POST)
         {
+            $data     = $this->_get_test();
+            $topics   = $data['topics'];
+            $topic_id = $topics[$step - 1]['id'];
+            $condition = array('user_id' => $this->_user->id, 'topic_id' => $topic_id );
+
+            $obj->where($condition)->get();
+
             $json = array_merge($obj->to_array(), $this->_get_test());
-            $json['aChoose'] = array('3');
+            $json['aChoose'] = $json['aChoose'] ? explode(',', $json['aChoose']) : array();
             echo json_encode( $this->_filter($json) );
         }
         else if( isset($_POST['model']) AND $model = $_POST['model'] )
         {
-            $obj->from_json($model);
+            $data = json_decode( $model );
+            $obj->topic_id = $data->topic_id;
+            $obj->aChoose  = implode(',', $data->aChoose);
+            $obj->user_id  = $this->_user->id;
             if( $obj->save() )
             {
                 echo $obj->to_json();
@@ -43,15 +65,14 @@ class Answers extends CI_Controller {
         }
     }
 
+    //需要的运算太大，最好放客户端统一完成后提交，可能存在性能问题
     protected function _get_test ()
     {
-        $test = new Test();
-        $test->get_by_id(41);
+        $test = $this->_user->test->get();
         $json = array();
         $json['test'] = $this->_filter($test->to_array());
 
-        $topics = new Topic();
-        $topics->get();
+        $topics = $test->topic->get();
         $json['topics'] = array();
         $tocNumber      = 0;
 
@@ -62,13 +83,16 @@ class Answers extends CI_Controller {
         }
         $json['topicNum'] = $tocNumber;
 
-        $users = new User();
-        $users->get();
+        $users = $test->user->get_where(array('uType'=>'student'));
         $json['users'] = array();
 
         foreach( $users->all_to_array() as $user)
         {
-            $json['users'][] = $this->_filter($user);
+            //删除自身
+            if( $user['id'] != $this->_user->id )
+            {
+                $json['users'][] = $this->_filter($user);
+            }
         }
 
         return $json;

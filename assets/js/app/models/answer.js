@@ -6,21 +6,38 @@ define(function(require,exports, module){
 
     module.exports = Backbone.Model.extend({
         url : function() {
-            var base = 'index.php/answers/edit';
-            if (this.isNew()) return base;
-            return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
+            var base = 'index.php/answers/edit/';
+            return base + this.get("step");
         },
         initialize : function () {
-            this.set( { step : 1} );
-            this.bind("change:step", function () {
-                console.log('step change');
-                console.log( arguments );
-            });
+            this.template = '';
         },
-        template   : '',
+        setCache   : function () {
+            var data = this.Cache,
+                o    = {
+                    users  : data.users,
+                    topics : data.topic,
+                    test   : data.test
+                };
+            this.set(o);
+            this.template  = data.template;
+        },
+        //缓存数据
+        cacheData  : function () {
+            var Cache = this.Cache;
+            if (  'cached' in Cache ) {
+                this.setCache();
+            }
+        },
+        //保存已经添加过的数据
+        _seleted   : [],
+        //进入下一步，数据准备
+        goNext     : function () {
+        },
         setJson    : function () {
             var self  = this,
                 step  = this.get('step');
+
             _.each(this.get("users"), function (user) {
                 var in_array = false;
                 _.each(self.get("aChoose"), function (id) {
@@ -34,7 +51,15 @@ define(function(require,exports, module){
                     user.selected = false;
             });
             var num = this.get("topicNum"),
-                obj = { 'topic' : self.get("topics")[step], stepBack: true, stepNext: true };
+                obj = { 
+                    'topic'  : self.get("topics")[step - 1], 
+                    stepBack : true, 
+                    backUrl  : self.get("step") - 1,
+                    stepNext : true, 
+                    nextUrl  : self.get("step") + 1,
+                    //用户名随机排序
+                    users    : this.get("users").sort(function () { return 0.5 - Math.random(); }) 
+                };
             if( step == 1 ) {
                 obj.stepBack = false;
             } else if( step == num ) {
@@ -60,6 +85,18 @@ define(function(require,exports, module){
         },
         getMax      : function () {
             return this.get("topic").tocMax;
+        },
+        //发送数据到服务器前，只保留需要的attributes
+        filter      : function (attrs) {
+            var attributes = this.attributes;
+            var Cache      = this.Cache;
+            _(attributes).each(function (attr,field) {
+                if( _.indexOf(attrs, field) == -1) {
+                    Cache[field]  = attr;
+                    delete attributes[field];
+                }
+            });
+            Cache.cached  = true;
         }
 
     });

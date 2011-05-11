@@ -5,6 +5,8 @@ define(function(require,exports, module){
 
     module.exports = Backbone.Collection.extend({
         model  : Topic,
-        url    : 'index.php/topics/lists'
+        url    : function () {
+            return 'index.php/topics/lists/' + this.testId;
+        }
     });
 });

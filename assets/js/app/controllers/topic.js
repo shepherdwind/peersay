@@ -22,7 +22,7 @@ define(function (require, exports, module) {
             view.bind('saved', function (url) {
                 Backbone.history.saveLocation(url);
                 if( url.indexOf('lists') > -1)
-                    self.listTopics();
+                    self.listTopics(self.testId);
                 else
                     self.addTopicView();
             });
@@ -40,8 +40,11 @@ define(function (require, exports, module) {
                 }
             });
         },
+        testId        : 0,
         listTopics    : function (id) {
-            var Ts = new TopicList();
+            var Ts    = new TopicList();
+            Ts.testId = id;
+            this.testId = id;
             var listView = new TopicListView();
             listView.onloading(document.body, 'loaded');
             Ts.fetch({

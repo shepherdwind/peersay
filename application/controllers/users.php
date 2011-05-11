@@ -9,28 +9,30 @@ class Users extends CI_Controller {
         parent::__construct();
 
         $fn = $this->uri->segment(2);
-        $fn = $fn ? $fn : 'index';
-
-        $this->_user = new User();
-
-        if( !$this->_user->isPassed($fn) ) {
-            show_error("没有访问权限啊，是不是没有<a href=". site_url('user/login') .">登录</a>");
+        if($fn != 'login' AND $fn)
+        {
+            if(!$this->session->userdata('id') > 0 OR $this->session->userdata("type") != "research" )
+            {
+                $message = array('error' => '没有权限');
+                echo json_encode($message);
+                exit();
+            }
         }
-
     }
 
     function index()
     {
-        if ( $this->_user->getType() == USER_RESERCHER ) 
-        {
-            $this->load->view('admin/research_index');
-        }
+        $this->load->view('admin/research_index');
     }
 
     public function edit ($id = 0)
     {
         $obj = new User();
         $obj->get_by_id( (int)$id );
+
+        $testid = $this->session->userdata('testid');
+        $test   = new Test();
+        $test->get_by_id($testid);
 
         if( !$_POST)
         {
@@ -41,6 +43,7 @@ class Users extends CI_Controller {
             $obj->from_json($model);
             if( $obj->save() )
             {
+                $test->save($obj);//保存关系
                 echo $obj->to_json();
             }
             else
@@ -50,36 +53,30 @@ class Users extends CI_Controller {
         }
         else if (isset($_POST['_method']) AND $_POST['_method'] === 'DELETE' )
         {
+            $test->delete($obj);
             $obj->delete();
         }
     }
 
     function lists()
     {
-        $t = new User();
-        $t->get();
+        $testid = $this->session->userdata('testid');
+        $test   = new Test();
+        $test->get_by_id($testid);
+        $t = $test->user->get_where(array('uType' => 'student'));
         //datamapper的json扩展真是强大
         echo $t->all_to_json();
-    }
-
-    function addNew ()
-    {
-        $obj = new User();
-        $obj->from_json($_POST['model']);
-        if( $obj->save() )
-        {
-            return $obj->to_json();
-        }
-        else
-        {
-            return array( 'error' => $obj->error->string);
-        }
     }
 
     function addBatch () 
     {
         $users = str_getcsv($_POST['users']);
         $saved = TRUE;
+
+        $testid = $this->session->userdata('testid');
+        $test   = new Test();
+        $test->get_by_id($testid);
+
         foreach($users as $user)
         {
             $u = new User();
@@ -91,7 +88,24 @@ class Users extends CI_Controller {
                 $saved = FALSE;
                 break;
             }
+            $test->save($u);
         }
         return 'saved';
+    }
+
+    function login () 
+    {
+        $name     = $_POST['name'];
+        $password = $_POST['password'];
+        $re       = array();
+        $u        = new User();
+        $u->get_where(array("uName" => $name));
+        if ( $u->uPassword == $password)
+        {
+            $re['model']   = $u->to_array();
+            $re['success'] = TRUE;
+            $this->session->set_userdata(array( 'type' => $u->uType, 'id' => $u->id));
+            echo json_encode($re);
+        }
     }
 }

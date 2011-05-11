@@ -8,8 +8,7 @@ define(function (require, exports, module) {
 
      module.exports    = Backbone.View.extend({
         events    : {
-            "click .submit" : "save",
-            "click .reset"  : "reset",
+            "click .opration-bar .next" : "save",
             "click .user-content a" : "select"
         },
         initialize : function () {
@@ -22,7 +21,6 @@ define(function (require, exports, module) {
             return false;
         },
         select     : function () {
-            
             return false;
         },
         render     : function () {
@@ -35,12 +33,14 @@ define(function (require, exports, module) {
             if( this.model.template === '' ) {
                 $.get( url, function (data) {
                     self.model.template = data;
+                    self.model.Cache.template = data;
                     self._render.apply(self);
                     //加载结束,在控制器中开始调用加载提示
                     self.trigger('loaded');
                 });
             } else {
                 this._render();
+                self.trigger('loaded');
             }
         },
         _render   : function () {
@@ -118,6 +118,7 @@ define(function (require, exports, module) {
                 step : step + 1
             });
         },
+        //人数到达上限，继续修改
         furtherEdit : function () {
             $("#user-content .unselected").sortable("enable");
         },
@@ -158,41 +159,20 @@ define(function (require, exports, module) {
             this.onloading(self.el);
 
             var data = {
-                tocTitle  : this.$('#tocTitle').val() ,
-                tocMin    : parseInt(this.$('#tocMin').val(), 10 ) || 0,
-                tocMax    : parseInt(this.$('#tocMax').val(), 10 ) || 1
+                'topic_id'  : this.model.get("topic").id
             };
 
-            var message = this.model.isNew() ? "成功创建项目" : "修改成功";
+            this.model.filter(['aChoose','aRefuse','topic_id','test_id','step','id']);
+
             this.model.save(data,
             {
                 success   : function () {
-                    var json = {};
-                    json.message = message;
-
-                    json.buttons = [{
-                        text   : '好了,就这样吧',
-                        click  : function () { 
-                            $(this).dialog("close");
-                            self.trigger('saved','answers/lists');
-                        }
-                    },
-                    {
-                        text   : '添加新项目',
-                        click : function () {
-                            $(this).dialog("close");
-                            self.trigger('saved','answers/addNew');
-                        }
-                    }];
-
-                    self._tips('success', json);
+                    return false;
                 },
                 error     : function (model,error) {
-                    self._tips('error', error );
+                    self._tips('保存数据发生错误，请与研究者联系', error );
                 }
             });
-
-            return false;
         },
         /**
          *

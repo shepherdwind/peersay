@@ -83,7 +83,6 @@ define(function (require, exports, module) {
             var config     = _.clone(this.config);
             config.title   = "确认操作";
             config.buttons = json.buttons;
-            config.modal   = true;
             this.content.dialog(config);
         }
     });

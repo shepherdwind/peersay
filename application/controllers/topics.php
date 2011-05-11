@@ -5,6 +5,14 @@ class Topics extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+
+        if(!$this->session->userdata('id') > 0 OR $this->session->userdata("type") != "research" )
+        {
+            $message = array('error' => '没有权限');
+            echo json_encode($message);
+            exit();
+        }
+
     }
 
     public function index ($id)
@@ -25,15 +33,19 @@ class Topics extends CI_Controller {
         }
         else if( isset($_POST['model']) AND $model = $_POST['model'] )
         {
-            $obj->from_json($model);
-            if( $obj->save() )
+            $testid = $this->session->userdata('testid');
+            $topic = new Topic();
+            $topic->from_json($model);
+            $topic->test_id = $testid;
+            if( $topic->save() )
             {
-                echo $obj->to_json();
+                echo $topic->to_json();
             }
             else
             {
-                echo json_encode(array('error' => $obj->error->string));
+                echo array( 'error' => $test->error->string);
             }
+
         }
         else if (isset($_POST['_method']) AND $_POST['_method'] === 'DELETE' )
         {
@@ -41,25 +53,19 @@ class Topics extends CI_Controller {
         }
     }
 
-    function lists()
+    function lists($id = 0)
     {
-        $t = new Topic();
-        $t->get();
+        if( !$id)
+        {
+            $id = $this->session->userdata("testid");
+        }
+        $test = new Test();
+        $test->get_by_id((int)$id);
+        $t = $test->topic->get();
+
+        $this->session->set_userdata(array('testid' => $id));
         //datamapper的json扩展真是强大
         echo $t->all_to_json();
     }
 
-    function addNew ()
-    {
-        $test = new Topic();
-        $test->from_json($_POST['model']);
-        if( $test->save() )
-        {
-            return $test->to_json();
-        }
-        else
-        {
-            return array( 'error' => $test->error->string);
-        }
-    }
 }

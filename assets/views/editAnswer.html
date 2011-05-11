@@ -31,10 +31,10 @@
       <span class="finished">一共<em>{{topicNum}}</em>道题目，正在<em>{{step}}</em>题。</span>
       <span class="opration-bar">
       {{#stepBack}}
-        <a href="#" class="back">上一步</a>
+      <a href="#answer/{{backUrl}}" class="back">上一步</a>
       {{/stepBack}}
       {{#stepNext}}
-        <a href="#" class="next">下一步</a>
+        <a href="#answer/{{nextUrl}}" class="next">下一步</a>
       {{/stepNext}}
       </span>
     </div>
