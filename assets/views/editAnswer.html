@@ -14,9 +14,9 @@
       {{#users}}
         {{#selected}}
         <!-- <li data-id="{{id}}" data-selected="1"><a href="#" class="user-name">{{uName}}</a></li> -->
-        <li data-id="{{id}}" data-selected="1">
+        <li>
           <label for="user-{{id}}">{{uName}}</label>
-          <input id="user-{{id}}" name="users" type="checkbox" checked="checked"/>
+          <input id="user-{{id}}" value="{{id}}" name="users" type="checkbox" checked="checked"/>
         </li> 
         {{/selected}}
       {{/users}}
@@ -26,7 +26,7 @@
         {{^selected}}
         <li data-selected="0" data-id="{{id}}">
           <label for="user-{{id}}">{{uName}}</label>
-          <input id="user-{{id}}" name="users" type="checkbox" />
+          <input id="user-{{id}}" name="users" type="checkbox" value="{{id}}"/>
         </li>
         {{/selected}}
       {{/users}}
@@ -42,6 +42,9 @@
       {{/stepBack}}
       {{#stepNext}}
         <a href="#answer/{{nextUrl}}" class="next">下一步</a>
+      {{/stepNext}}
+      {{^stepNext}}
+        <a href="#answer/1000" class="next">提交</a>
       {{/stepNext}}
       </span>
     </div>

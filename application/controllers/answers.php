@@ -48,9 +48,14 @@ class Answers extends CI_Controller {
         else if( isset($_POST['model']) AND $model = $_POST['model'] )
         {
             $data = json_decode( $model );
-            $obj->topic_id = $data->topic_id;
-            $obj->aChoose  = implode(',', $data->aChoose);
-            $obj->user_id  = $this->_user->id;
+            $condition     = array('user_id' => $this->_user->id, 'topic_id' => $data->topic_id);
+            $obj->where($condition)->get();
+            if( !$obj->id )
+            {
+                $obj->aChoose  = implode(',', $data->aChoose);
+                $obj->topic_id = $data->topic_id;
+                $obj->user_id  = $this->_user->id;
+            }
             if( $obj->save() )
             {
                 echo $obj->to_json();

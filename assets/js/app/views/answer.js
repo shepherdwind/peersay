@@ -6,9 +6,9 @@ define(function (require, exports, module) {
         Busy       = require('libs/busy'),
         Mustache   = require('libs/mustache');
 
-     module.exports    = Backbone.View.extend({
+    var View       = Backbone.View.extend({
         events    : {
-            "click .opration-bar .next"  : "save",
+            "click .opration-bar a"     : "save",
             "click #user-content input" : "select"
         },
         initialize : function () {
@@ -24,8 +24,10 @@ define(function (require, exports, module) {
             var destination = {};
             var target      = e.target;
             var empty       = false;
+            var checked     = target.checked;
+            var userId      = target.value;
             //alert('change');
-            if( e.target.checked ) {
+            if( checked ) {
                 destination = $(".selected li:last");
                 if( ! destination.length ) {
                     destination = $(".selected");
@@ -39,6 +41,7 @@ define(function (require, exports, module) {
                 }
             }
             this._moveTo($(target).parent(), destination,empty);
+            this._choose(checked, userId);
         },
         _moveTo    : function (origin,destination,empty) {
             //alert($.browser.msie);
@@ -87,95 +90,73 @@ define(function (require, exports, module) {
             var self    = this;
             var uiDisable = false;
             var finished  = Math.floor(this.model.get("step") * 100 / this.model.get("topicNum"));
-            
+
             this.model.setJson();
             $(this.el).html( Mustache.to_html(this.model.template, this.model.toJSON() ) );
-
             this.$("#user-content").buttonset();
             this.$("#progressbar").progressbar({ value : finished });
             content.html(this.el);
-        },
-        showFull    : function () {
-            var self = this;
-            var json = {
-                message : "本题最多选择" + this.model.getMax() + '人。如果想继续修改，请点击“修改已选择”，当把选择区域的用户拖下来时，可以重新选择',
-                buttons : [
-                    {
-                        text  : '下一题',
-                        click : function () {
-                            $(this).dialog("close");
-                            self.goNext();
-                        }
-                    },
-                    { 
-                        text  : '修改已选择',
-                        click : function () {
-                            $(this).dialog("close");
-                            //继续修改
-                            self.furtherEdit();
-                        }
-                    }
-                ]
-            };
-            this._tips('confirm', json);
-        },
-        goNext    : function () {
-            var step = this.model.get("step");
-            this.model.set({
-                step : step + 1
-            });
         },
         /**
          *
          * 选择用户函数
          * @param select Bool|1|0
          * @param userId Number
-         * @param type   Enum  'start' | 'end'
          */
-        _choose    : function (select, userId, type) {
-            //尝试选择某个用户
-            if( type === 'start' && 0 === parseInt(select,10) ) {
-                //获取已经选择的用户数
+        _choose    : function (select, userId ) {
+            if( select) {
                if( this.model.isFull() ) {
-                    this._tips('error','不能再选了，本题最多选择' + this.model.get("topic").tocMax + '人');
-                    return false;
+                    this._tips('error','本题最多选择' + this.model.get("topic").tocMax + '人', $(".unselected"));
                 }
-            } else if ( type === 'end') {
-                //选择某个用户
-                if( 1 === parseInt(select, 10)) {
-                    this.model.selectUser(userId);
-                    return true;
-                } else if (0 === parseInt(select, 10)) {
-                    this.model.deleteUser(userId);
-                    return true;
-                }
+                this.model.selectUser(userId);
+            } else {
+                this.model.deleteUser(userId);
             }
-            return true;
         },
         /**
          *
          * 增加测试，表单提交时触发此函数
          */
-        save      : function () {
+        save      : function (e) {
             var self = this;
-            //开始显示加载状态
-            this.onloading(self.el);
+            var model  = this.model;
+            var steps = model.get('topics').length;
+            var step = parseInt(model.get('step'), 10);
+            var url  = e.target.href;
+            var goStep = url.match(/\/(\d+)$/);
+            var goTo   = parseInt(goStep[1], 10);
 
-            var data = {
-                'topic_id'  : this.model.get("topic").id
-            };
+            if(step <= steps ) {
+                model.set({
+                    step : goTo 
+                });
+                var V = new View();
+                V.model = this.model;
+                V.onloading();
+                V.render();
+                Backbone.history.saveLocation('answer/' + goTo);
+            } else {
+                //开始显示加载状态
+                this.onloading(self.el);
 
-            this.model.filter(['aChoose','aRefuse','topic_id','test_id','step','id']);
+                var data = {
+                    'topic_id'  : this.model.get("topic").id
+                };
 
-            this.model.save(data,
-            {
-                success   : function () {
-                    return false;
-                },
-                error     : function (model,error) {
-                    self._tips('保存数据发生错误，请与研究者联系', error );
-                }
-            });
+                this.model.filter(['aChoose','aRefuse','topic_id','test_id','step','id']);
+
+                this.model.save(data,
+                {
+                    success   : function () {
+                        return false;
+                    },
+                    error     : function (model,error) {
+                        self._tips('保存数据发生错误，请与研究者联系', error );
+                    }
+                });
+            }
+
+            return false;
         },
         /**
          *
@@ -186,27 +167,43 @@ define(function (require, exports, module) {
          */
         onloading : function (node, event, obj) {
             var loading = Busy(node);
+            node = node || document.body;
 
             obj = obj || this;
             event = event || 'loaded';
 
             obj.bind(event, function () {
-                loading.remove();
+                loading && loading.remove();
             });
         },
-        _tips     : function (type, message) {
+        /**
+         *
+         * 错误消息提示
+         */
+        _tips     : function (type, message, node) {
+            node     = node || $("#main-wrap");
+            type     = type || 'info';
             var self = this;
-            module.load('app/tips', function (Tips) {
-                var tip = new Tips({'position': ['center',100]});
 
-                //结束加载状态
-                self.trigger("loaded");
-                if( type in tip )
-                    tip[type](message);
-
-                tip = undefined;
-            });
+            var html = '<div class="ui-state-error ui-corner-all ui-tips"><p><span class="ui-icon ui-icon-alert"></span>'+message+'</p></div>';
+            var tips = $(html).css({opacity: 0, 'padding' : '0.5em 1em', 'margin-bottom' : '10px'});
+            var delayTime = 2000;
+            if( type == 'error' ) {
+                node.before(tips);
+                tips.animate({
+                    opacity : 0.7
+                }, 400, function () {
+                    _.delay(function () {
+                        tips.animate({
+                            opacity : 0,
+                            height  : 0
+                        }, 300, function () {
+                            tips.remove();
+                        });
+                    }, delayTime);
+                });
+            }
         }
-
     });
+    module.exports  = View;
 });

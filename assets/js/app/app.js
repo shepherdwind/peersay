@@ -54,7 +54,6 @@ define(function(require,exports, module){
             this.onloading();
 
             $.post("index.php/users/login", data, function (response) {
-                console.log(arguments);
                 if(response.success) {
                     //如果是研究员，查看自己的列表
                     var user        = new User(response.model);

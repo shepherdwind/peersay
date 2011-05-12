@@ -11,6 +11,7 @@ define(function(require,exports, module){
         },
         initialize : function () {
             this.template = '';
+            this.bind('change:step', this.saveF2e);
         },
         setCache   : function () {
             var data = this.Cache,
@@ -30,7 +31,23 @@ define(function(require,exports, module){
             }
         },
         //保存已经添加过的数据
-        _seleted   : [],
+        _seleted   : {},
+        saveF2e    : function () {
+            var step = parseInt(this.get('step'), 10);
+            var topicId = this.get("topic").id;
+
+            var topics  = this.get('topics');
+            var topicIdNow = topics[step - 1].id;
+
+            //保存
+            this._seleted[topicId] = this.get("aChoose");
+
+            //new choose
+            this.set({
+                aChoose : this._seleted[topicIdNow] || []
+            });
+            //console.log(this._seleted, this.get('aChoose'));
+        },
         //进入下一步，数据准备
         goNext     : function () {
         },
@@ -56,7 +73,7 @@ define(function(require,exports, module){
                     stepBack : true, 
                     backUrl  : self.get("step") - 1,
                     stepNext : true, 
-                    nextUrl  : self.get("step") + 1,
+                    nextUrl  : parseInt(self.get("step"), 10) + 1,
                     //用户名随机排序
                     users    : this.get("users").sort(function () { return 0.5 - Math.random(); }) 
                 };
@@ -71,14 +88,12 @@ define(function(require,exports, module){
             var aChoose = this.get('aChoose');
             aChoose.push(parseInt(id, 10) );
             this.set({'aChoose': aChoose});
-            console.log(this.attributes.aChoose);
         },
         deleteUser  : function (id) {
             var aChoose = this.get('aChoose');
             this.set({
                 'aChoose' : _.reject(aChoose, function (num) { return id == num; })
             });
-            console.log(this.attributes.aChoose);
         },
         isFull      : function () {
             return this.get("aChoose").length >= this.get("topic").tocMax;
