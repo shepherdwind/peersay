@@ -105,6 +105,7 @@ class Users extends CI_Controller {
             $re['model']   = $u->to_array();
             $re['success'] = TRUE;
             $this->session->set_userdata(array( 'type' => $u->uType, 'id' => $u->id));
+            setcookie($u->uType, 1, time() + 3600 , '/');
             echo json_encode($re);
         }
     }

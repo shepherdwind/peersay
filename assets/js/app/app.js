@@ -32,9 +32,18 @@ define(function(require,exports, module){
                     $(self.el).html(html);
                     content.html(self.el);
                     content.find('#top-nav a, .button a').button();
+                    var cookie = document.cookie;
+
+                    if( cookie.indexOf('student') > -1 ) {
+                        self._goToPage("student");
+                    } else if( cookie.indexOf('research') > -1) {
+                        self._goToPage("research");
+                    }
                 },
                 dataType : 'html'
             });
+            Backbone.emulateHTTP = true;
+            Backbone.emulateJSON = true;
         },
         login       : function ( ) {
             var self = this,
@@ -50,36 +59,44 @@ define(function(require,exports, module){
                     //如果是研究员，查看自己的列表
                     var user        = new User(response.model);
                     var uType       = user.get('uType');
-                    var controllers = [];
                     var filter      = [];
                     if( uType == 'research' ) {
-                        controllers = ['app/controllers/test', 'app/controllers/topic', 'app/controllers/user'];
-                        module.load(controllers, function ( Tester, Topicer, User) {
-                            var test = new Tester();
-                            new Topicer();
-                            new User();
-                            Backbone.history.start();
-                            Backbone.history.saveLocation("tests/lists/");
-                            test.listTests();
-                        });
+                        self._goToPage('research');
                     } else if ( uType == 'messenger' ) {
                         filter = [];
                     } else {
-                        controllers = ['app/controllers/answer'];
-                        module.load(controllers, function (Answer) {
-                            var an = new Answer();
-                            Backbone.history.start();
-                            an.answer();
-                            Backbone.history.saveLocation("answer/");
-                        });
+                        self._goToPage('student');
                     }
-                    Backbone.emulateHTTP = true;
-                    Backbone.emulateJSON = true;
-
                 }
 
                 self.trigger('loaded');
             }, 'json');
+        },
+        _goToPage : function (type) {
+            type = type || 'research';
+            var controllers = [];
+            var url         = document.location.hash;
+            if( type === 'student' ) {
+                controllers = ['app/controllers/answer'];
+                module.load(controllers, function (Answer) {
+                    var an = new Answer();
+                    Backbone.history.start();
+                    an.answer();
+                    url.length < 2 && (url = 'answer/');
+                    Backbone.history.saveLocation(url);
+                });
+            } else if( type === 'research') {
+                controllers = ['app/controllers/test', 'app/controllers/topic', 'app/controllers/user'];
+                module.load(controllers, function ( Tester, Topicer, User) {
+                    var test = new Tester();
+                    new Topicer();
+                    new User();
+                    Backbone.history.start();
+                    url.length < 2 && (url = 'tests/lists/');
+                    Backbone.history.saveLocation("tests/lists/");
+                    test.listTests();
+                });
+            }
         },
         /**
          *

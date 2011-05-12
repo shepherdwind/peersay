@@ -10,6 +10,7 @@ class Answers extends CI_Controller {
         if(!$this->session->userdata('id') > 0 )
         {
             $message = array('error' => '没有权限');
+            setcookie('student',1,time() - 3600);
             echo json_encode($message);
             exit();
         }

@@ -13,14 +13,21 @@
       <ul class="selected connected ks-clear">
       {{#users}}
         {{#selected}}
-        <li data-id="{{id}}" data-selected="1"><a href="#" class="user-name">{{uName}}</a></li>
+        <!-- <li data-id="{{id}}" data-selected="1"><a href="#" class="user-name">{{uName}}</a></li> -->
+        <li data-id="{{id}}" data-selected="1">
+          <label for="user-{{id}}">{{uName}}</label>
+          <input id="user-{{id}}" name="users" type="checkbox" checked="checked"/>
+        </li> 
         {{/selected}}
       {{/users}}
       </ul>
       <ul class="unselected connected ks-clear">
       {{#users}}
         {{^selected}}
-        <li data-selected="0" data-id="{{id}}"><a href="#" class="user-name">{{uName}}</a> </li>
+        <li data-selected="0" data-id="{{id}}">
+          <label for="user-{{id}}">{{uName}}</label>
+          <input id="user-{{id}}" name="users" type="checkbox" />
+        </li>
         {{/selected}}
       {{/users}}
       </ul>

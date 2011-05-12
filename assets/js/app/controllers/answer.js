@@ -3,9 +3,8 @@ define(function (require, exports, module) {
     var _            = require('libs/underscore'),
         Backbone     = require('libs/backbone'),
         AddView      = require('app/views/answer'),
-        Answer       = require('app/models/answer'),
-        AnswerList   = require('app/models/answers'),
-        AnswerListView = require('app/views/answers');
+        Answer       = require('app/models/answer');
+
 
      module.exports    = Backbone.Controller.extend({
         routes    : {

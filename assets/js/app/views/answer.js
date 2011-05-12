@@ -8,8 +8,8 @@ define(function (require, exports, module) {
 
      module.exports    = Backbone.View.extend({
         events    : {
-            "click .opration-bar .next" : "save",
-            "click .user-content a" : "select"
+            "click .opration-bar .next"  : "save",
+            "click #user-content input" : "select"
         },
         initialize : function () {
             //_.bindAll(this,'render');
@@ -20,8 +20,47 @@ define(function (require, exports, module) {
             this.$("form")[0].reset();
             return false;
         },
-        select     : function () {
-            return false;
+        select     : function (e) {
+            var destination = {};
+            var target      = e.target;
+            var empty       = false;
+            //alert('change');
+            if( e.target.checked ) {
+                destination = $(".selected li:last");
+                if( ! destination.length ) {
+                    destination = $(".selected");
+                    empty       = true;
+                }
+            } else {
+                destination = $(".unselected li:last");
+                if( ! destination.length ) {
+                    destination = $(".unselected");
+                    empty       = true;
+                }
+            }
+            this._moveTo($(target).parent(), destination,empty);
+        },
+        _moveTo    : function (origin,destination,empty) {
+            //alert($.browser.msie);
+            var offset     = destination.offset();
+            var style      = origin.offset();
+            var styleReset = { position: 'inherit', zIndex : '', left : '', top : '' };
+            style.position = 'absolute';
+            style.zIndex   = 100;
+            style.listStyle = 'none';
+            origin.css(style);
+            origin.appendTo(document.body);
+            origin.animate({
+                left  : empty ? offset.left : offset.left + 80,
+                top   : offset.top
+            }, 300, function () {
+                if ( empty )
+                    destination.append(origin);
+                else
+                    destination.after(origin);
+
+                origin.css(styleReset);
+            });
         },
         render     : function () {
             var self  = this,
@@ -52,40 +91,8 @@ define(function (require, exports, module) {
             this.model.setJson();
             $(this.el).html( Mustache.to_html(this.model.template, this.model.toJSON() ) );
 
-            this.$(".user-content a").button();
+            this.$("#user-content").buttonset();
             this.$("#progressbar").progressbar({ value : finished });
-            this.$("#user-content .unselected, #user-content .selected").sortable({
-                connectWith : ".connected",
-                start       : function (e,sort) {
-                    var node = $(sort.item[0]);
-                    var s = self._choose.call(self, node.attr("data-selected"), node.attr("data-id"), 'start');
-                    if( ! s  ) {
-                        $(this).sortable("disable");
-                        $(this).find("a").button("disable");
-                    }
-                },
-                stop        : function (e,sort) {
-                    var node = $(sort.item[0]);
-                    var box  = node.parent().hasClass('selected');
-
-                    if(box !== $(this).hasClass("selected")){
-                        if(box)
-                            node.attr('data-selected',1);
-                        else
-                            node.attr('data-selected',0);
-                        self._choose.call(self, node.attr("data-selected"), node.attr("data-id"), 'end');
-
-                        if( self.model.isFull() ){
-                            $(this).sortable("disable");
-                            $(this).find("a").button("disable");
-                            self.showFull();
-                            uiDisable = true;
-                        } else if (uiDisable) {
-                            $("#user-content .unselected a").button("enable");
-                        }
-                    }
-                }
-            });
             content.html(this.el);
         },
         showFull    : function () {
@@ -117,10 +124,6 @@ define(function (require, exports, module) {
             this.model.set({
                 step : step + 1
             });
-        },
-        //人数到达上限，继续修改
-        furtherEdit : function () {
-            $("#user-content .unselected").sortable("enable");
         },
         /**
          *
