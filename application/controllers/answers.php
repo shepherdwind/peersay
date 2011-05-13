@@ -48,7 +48,14 @@ class Answers extends CI_Controller {
         else if( isset($_POST['model']) AND $model = $_POST['model'] )
         {
             $data = json_decode( $model );
-            $this->_save($data);
+            $get  = $this->_save($data);
+            if( isset($get['error'] ))
+            {
+                json_encode($get);
+            } else {
+                $get['aChoose'] = explode(',',$get['aChoose']);
+                echo json_encode($this->_filter($get));
+            }
         }
         else if (isset($_POST['_method']) AND $_POST['_method'] === 'DELETE' )
         {
@@ -62,7 +69,7 @@ class Answers extends CI_Controller {
         $condition     = array('user_id' => $this->_user->id, 'topic_id' => $data->topic_id);
         $obj->where($condition)->get();
 
-        if( $data->selected )
+        if( isset($data->selected) AND $data->selected )
         {
             foreach($data->selected as $tid => $choose)
             {
@@ -77,7 +84,7 @@ class Answers extends CI_Controller {
         $obj->user_id  = $this->_user->id;
         if( $obj->save() )
         {
-            return $obj;
+            return $obj->to_array();
         }
         else
         {
@@ -94,12 +101,18 @@ class Answers extends CI_Controller {
         $json['test'] = $this->_filter($test->to_array());
 
         $topics = $test->topic->get();
-        $json['topics'] = array();
-        $tocNumber      = 0;
+        $json['topics']  = array();
+        $json['answers'] = new StdClass();
+        $tocNumber       = 0;
 
-        foreach( $topics->all_to_array() as $topic )
+        foreach( $topics->all as $topic )
         {
-            $json['topics'][] = $this->_filter($topic);
+            $json['topics'][] = $this->_filter($topic->to_array());
+            $answer           = $topic->answer->where(array('topic_id' => $topic->id))->get();
+            if ( $answer->aChoose != '' )
+            {
+                $json['answers']->{$topic->id} = explode(',',$answer->aChoose);
+            }
             $tocNumber++;
         }
         $json['topicNum'] = $tocNumber;

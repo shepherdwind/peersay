@@ -55,7 +55,6 @@ define(function (require, exports, module) {
             this.model.save(data,
             {
                 success   : function () {
-                    console.log(arguments);
                     var json = {};
                     json.message = message;
 

@@ -16,6 +16,14 @@ define(function(require,exports, module){
             "click .submit": 'login'
         },
         initialize : function () {
+
+            //solve the problem when JSON is undefined(IE7)
+            try {
+                JSON;
+            } catch (e) {
+                alert('js');
+                module.load('libs/json');
+            }
             this.render();
         },
         reset      : function () {

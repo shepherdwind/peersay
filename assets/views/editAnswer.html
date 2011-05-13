@@ -1,14 +1,6 @@
 <div class="col-main">
   <div class="main-wrap" id="main-wrap">
 
-    <div class="topic-content">
-      {{#topic}}
-      <div class="topics">
-        <h3 data-id="{{id}}" data-max="{{tocMax}}" data-min="{{tocMin}}">{{tocTitle}} </h3>
-      </div>
-      {{/topic}}
-    </div>
-
     <div class="user-content" id="user-content">
       <ul class="selected connected ks-clear">
       {{#users}}
@@ -21,6 +13,15 @@
         {{/selected}}
       {{/users}}
       </ul>
+
+      <div class="topic-content">
+        {{#topic}}
+        <div class="topics">
+          <h3 data-id="{{id}}" data-max="{{tocMax}}" data-min="{{tocMin}}">{{step}}. {{tocTitle}} </h3>
+        </div>
+        {{/topic}}
+      </div>
+
       <ul class="unselected connected ks-clear">
       {{#users}}
         {{^selected}}

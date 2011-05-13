@@ -84,6 +84,19 @@ define(function (require, exports, module) {
             config.title   = "确认操作";
             config.buttons = json.buttons;
             this.content.dialog(config);
+        },
+        popwindow : function (config) {
+            var self = this;
+            if( config.url ) {
+                $.get(config.url, function (html) {
+                    self.setContent(html, config.data);
+                    var c     = _.clone(self.config);
+                    c.title   = config.title;
+                    c.modal   = true;
+                    c.buttons = config.buttons;
+                    self.content.dialog(c);
+                });
+            }
         }
     });
 

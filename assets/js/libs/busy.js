@@ -39,8 +39,8 @@
 define('busy',[],function (require, exports, module) {
     function onIEWinResize(event) {
         function parseWidth(val) {return (isNaN(parseInt(val,10))?0:parseInt(val,10));}
-        if(!event) {event=window.event;} var i,cs,parent=this, div=parent.getElementsByTagName("div");
-        if(div.length>0) {if(parent.currentStyle){cs=parent.currentStyle;}else if(document.defaultView&&document.defaultView.getComputedStyle){cs=document.defaultView.getComputedStyle(parent,"");}else{cs=parent.style;}
+        try { if(!event) {event=window.event;} var i,cs,parent=this, div=parent.getElementsByTagName("div"); 
+        if(length in div && div.length>0) {if(parent.currentStyle){cs=parent.currentStyle;}else if(document.defaultView&&document.defaultView.getComputedStyle){cs=document.defaultView.getComputedStyle(parent,"");}else{cs=parent.style;}
             for(i=0; i<div.length; i++) {if(div[i].className=='buzy_ele') {
                     div[i].style.height=(parent.offsetHeight-parseWidth(cs.borderBottomWidth)-parseWidth(cs.borderTopWidth));
                     div[i].style.width=(parent.offsetWidth-parseWidth(cs.borderLeftWidth)-parseWidth(cs.borderRightWidth)); 
@@ -48,7 +48,7 @@ define('busy',[],function (require, exports, module) {
                     break;
                 }
             }
-        }
+        }} catch (e) { }
     }
     function onIEVPResize(event) {
         if(!event) {event=window.event;} var vp=document.getElementById('viewport'); if(vp) {

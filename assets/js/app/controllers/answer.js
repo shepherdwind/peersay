@@ -31,21 +31,7 @@ define(function (require, exports, module) {
                 },
                 error   : function () {
                     alert("获取数据错误，请联系管理员。");
-                }
-            });
-        },
-        listAnswers    : function (id) {
-            var Ts = new AnswerList();
-            var listView = new AnswerListView();
-            listView.onloading(document.body, 'loaded');
-            Ts.fetch({
-                success : function () {
-                    listView.collection = Ts ;
-                    listView.render();
-                },
-                error   : function () {
-                    listView.trigger('fetchListError');
-                    listView.trigger('loaded');
+                    View.trigger('loaded');
                 }
             });
         }

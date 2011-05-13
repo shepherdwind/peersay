@@ -54,35 +54,43 @@ define(function(require,exports, module){
         setJson    : function () {
             var self  = this,
                 step  = this.get('step');
+            if( this.get("error") ) {
+                this.trigger('error', this.get("error"));
+            } else {
+                if( 'answers' in this.attributes ) {
+                    this._seleted = this.attributes['answers'];
+                    delete this.attributes['answers'];
+                }
 
-            _.each(this.get("users"), function (user) {
-                var in_array = false;
-                _.each(self.get("aChoose"), function (id) {
-                    if( user.id == id ){
-                        in_array = true;
-                    }
+                _.each(this.get("users"), function (user) {
+                    var in_array = false;
+                    _.each(self.get("aChoose"), function (id) {
+                        if( user.id == id ){
+                            in_array = true;
+                        }
+                    });
+                    if(in_array)
+                        user.selected = true;
+                    else
+                        user.selected = false;
                 });
-                if(in_array)
-                    user.selected = true;
-                else
-                    user.selected = false;
-            });
-            var num = this.get("topicNum"),
-                obj = { 
-                    'topic'  : self.get("topics")[step - 1], 
-                    stepBack : true, 
-                    backUrl  : self.get("step") - 1,
-                    stepNext : true, 
-                    nextUrl  : parseInt(self.get("step"), 10) + 1,
-                    //用户名随机排序
-                    users    : this.get("users").sort(function () { return 0.5 - Math.random(); }) 
-                };
-            if( step == 1 ) {
-                obj.stepBack = false;
-            } else if( step == num ) {
-                obj.stepNext = false;
+                var num = this.get("topicNum"),
+                    obj = { 
+                        'topic'  : self.get("topics")[step - 1], 
+                        stepBack : true, 
+                        backUrl  : self.get("step") - 1,
+                        stepNext : true, 
+                        nextUrl  : parseInt(self.get("step"), 10) + 1,
+                        //用户名随机排序
+                        users    : this.get("users").sort(function () { return 0.5 - Math.random(); }) 
+                    };
+                if( step == 1 ) {
+                    obj.stepBack = false;
+                } else if( step == num ) {
+                    obj.stepNext = false;
+                }
+                self.set( obj );
             }
-            self.set( obj );
         },
         selectUser  : function (id) {
             var aChoose = this.get('aChoose');

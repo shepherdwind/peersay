@@ -116,3 +116,10 @@ ol{
 }
 ol li{
 }
+.left-nav h3 {
+  margin: 0.5em 0;
+}
+.left-nav p {
+  font: 14px/1.8 arial;
+  text-indent: 2em;
+}

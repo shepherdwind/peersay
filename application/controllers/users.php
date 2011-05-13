@@ -22,6 +22,10 @@ class Users extends CI_Controller {
 
     function index()
     {
+        if(!$this->session->userdata('type'))
+        {
+            setcookie('student', 2, time() - 3600, '/');
+        }
         $this->load->view('admin/research_index');
     }
 

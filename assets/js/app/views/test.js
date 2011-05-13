@@ -83,7 +83,6 @@ define(function (require, exports, module) {
                     self._tips('success', json);
                 },
                 error     : function (model,error) {
-                    console.log(arguments);
                     self._tips('error', error );
                 }
             });

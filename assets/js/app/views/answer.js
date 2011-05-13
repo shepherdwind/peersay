@@ -12,6 +12,7 @@ define(function (require, exports, module) {
             "click #user-content input" : "select"
         },
         initialize : function () {
+            this.model.bind('error', this.error);
             //_.bindAll(this,'render');
             //this.model.bind('change', this.render);
             //this.render();
@@ -128,7 +129,7 @@ define(function (require, exports, module) {
             var goStep = url.match(/\/(\d+)$/);
             var goTo   = parseInt(goStep[1], 10);
 
-            if(step < steps ) {
+            if(goTo <= steps ) {
                 model.set({
                     step : goTo 
                 });
@@ -145,17 +146,41 @@ define(function (require, exports, module) {
                     'selected'  : this.model._seleted
                 };
 
+                var attrBak = this.model.attributes;
+
                 this.model.filter(['aChoose','aRefuse','topic_id','test_id','step','id']);
 
-                this.model.save(data,
-                {
-                    success   : function () {
-                        return false;
-                    },
-                    error     : function (model,error) {
-                        self._tips('保存数据发生错误，请与研究者联系', error );
-                    }
-                });
+                    this.model.save(data,
+                    {
+                        success   : function () {
+                            var json = {
+                                title: '完成测验',
+                                buttons : [
+                                    {
+                                        text: '退出',
+                                        click : function () {
+                                            $(this).dialog("close");
+                                            self.exit();
+                                        }
+                                    },
+                                    {
+                                        text : '继续修改',
+                                        click : function () {
+                                            $(this).dialog("close");
+                                            self.model.set(self.model.Cache);
+                                        }
+                                    }
+                                ],
+                                url  : 'assets/views/finish.html',
+                                data : { email : 'soiha.891@gmail.com' }
+                            };
+                            self._pop('popwindow',json);
+                            return false;
+                        },
+                        error     : function (model,error) {
+                            self._pop('error','保存数据发生错误，请与研究者联系');
+                        }
+                    });
             }
 
             return false;
@@ -177,6 +202,10 @@ define(function (require, exports, module) {
             obj.bind(event, function () {
                 loading && loading.remove();
             });
+        },
+        error     : function (message) {
+            alert(message);
+            this.trigger('loaded');
         },
         /**
          *
@@ -205,7 +234,19 @@ define(function (require, exports, module) {
                     }, delayTime);
                 });
             }
+        },
+        _pop    : function (type, message) {
+            var self = this;
+            module.load('app/tips', function (Tips) {
+                var tip = new Tips({'position': ['center',100]});
+                if (type in tip)
+                    tip[type](message);
+
+                tip = undefined;
+            });
         }
+
     });
+
     module.exports  = View;
 });
