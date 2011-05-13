@@ -8,7 +8,6 @@ define(function (require, exports, module) {
 
      module.exports    = Backbone.Controller.extend({
         routes    : {
-            "action/lists/:id"     : "listAnswers",
             "answer/:step"  : "answer"
         },
         initialize : function () {

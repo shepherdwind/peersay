@@ -9,11 +9,15 @@ define(function(require,exports, module){
         User     = require("app/models/user"),
         content  = $('#wrap');
 
-    module.exports = Backbone.View.extend({
+    var App      = Backbone.View.extend({
         
         events : {
             "click .reset" : 'reset',
             "click .submit": 'login'
+        },
+        reset      : function () {
+            this.$("form")[0].reset();
+            return false;
         },
         initialize : function () {
 
@@ -25,10 +29,6 @@ define(function(require,exports, module){
                 module.load('libs/json');
             }
             this.render();
-        },
-        reset      : function () {
-            this.$("form")[0].reset();
-            return false;
         },
         render :  function () {
             var self    = this;
@@ -87,8 +87,8 @@ define(function(require,exports, module){
                 controllers = ['app/controllers/answer'];
                 module.load(controllers, function (Answer) {
                     var an = new Answer();
-                    Backbone.history.start();
                     an.answer();
+                    Backbone.history.start();
                     url.length < 2 && (url = 'answer/');
                     Backbone.history.saveLocation(url);
                 });
@@ -138,4 +138,7 @@ define(function(require,exports, module){
         }
 
     });
+
+    module.exports = App;
+    new App();
 });

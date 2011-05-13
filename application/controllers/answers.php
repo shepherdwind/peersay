@@ -97,7 +97,9 @@ class Answers extends CI_Controller {
     protected function _get_test ()
     {
         $test = $this->_user->test->get();
+
         $json = array();
+        $json['name'] = $this->_user->uName;
         $json['test'] = $this->_filter($test->to_array());
 
         $topics = $test->topic->get();
@@ -125,7 +127,7 @@ class Answers extends CI_Controller {
             //删除自身
             if( $user['id'] != $this->_user->id )
             {
-                $json['users'][] = $this->_filter($user);
+                $json['users'][] = $this->_filter($user, array('uPassword'));
             }
         }
 

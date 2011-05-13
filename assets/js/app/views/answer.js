@@ -13,9 +13,15 @@ define(function (require, exports, module) {
         },
         initialize : function () {
             this.model.bind('error', this.error);
+            this.model.bind('change:name', this.showUser);
+            alert('a');
+            //this.model.bind('change:name', this.showUser);
             //_.bindAll(this,'render');
             //this.model.bind('change', this.render);
             //this.render();
+        },
+        showUser   : function (model, name) {
+            $("#welcome-words").text("欢迎登陆：" + name + "同学");
         },
         reset      : function () {
             this.$("form")[0].reset();
