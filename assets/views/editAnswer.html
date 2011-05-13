@@ -35,18 +35,20 @@
 
     <div class="status-bar">
       <div id="progressbar"></div>
-      <span class="finished">一共<em>{{topicNum}}</em>道题目，正在<em>{{step}}</em>题。</span>
-      <span class="opration-bar">
-      {{#stepBack}}
-      <a href="#answer/{{backUrl}}" class="back">上一步</a>
-      {{/stepBack}}
-      {{#stepNext}}
-        <a href="#answer/{{nextUrl}}" class="next">下一步</a>
-      {{/stepNext}}
-      {{^stepNext}}
-        <a href="#answer/1000" class="next">提交</a>
-      {{/stepNext}}
-      </span>
+      <div class="status">
+        <span class="finished">一共<em>{{topicNum}}</em>道题目，正在<em>{{step}}</em>题。</span>
+        <span class="opration-bar">
+        {{#stepBack}}
+        <a href="#answer/{{backUrl}}" class="back">上一步</a>
+        {{/stepBack}}
+        {{#stepNext}}
+          <a href="#answer/{{nextUrl}}" class="next">下一步</a>
+        {{/stepNext}}
+        {{^stepNext}}
+          <a href="#answer/1000" class="next">提交</a>
+        {{/stepNext}}
+        </span>
+      </div>
     </div>
 
   </div>

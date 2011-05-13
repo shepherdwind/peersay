@@ -39,8 +39,8 @@
   cursor: auto;
 }
 #user-content ul {
-  min-height: 20px;
-  _height: 20px;
+  min-height: 32px;
+  _height: 32px;
   padding: 1em;
   border-radius: 8px;
   border: 1px dotted #D2DBF4;

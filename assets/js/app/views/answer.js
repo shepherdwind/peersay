@@ -92,7 +92,9 @@ define(function (require, exports, module) {
             var finished  = Math.floor(this.model.get("step") * 100 / this.model.get("topicNum"));
 
             this.model.setJson();
-            $(this.el).html( Mustache.to_html(this.model.template, this.model.toJSON() ) );
+            var html = Mustache.to_html(this.model.template, this.model.toJSON() ) ;
+
+            $(this.el).html(html);
             this.$("#user-content").buttonset();
             this.$("#progressbar").progressbar({ value : finished });
             content.html(this.el);
@@ -126,13 +128,12 @@ define(function (require, exports, module) {
             var goStep = url.match(/\/(\d+)$/);
             var goTo   = parseInt(goStep[1], 10);
 
-            if(step <= steps ) {
+            if(step < steps ) {
                 model.set({
                     step : goTo 
                 });
-                var V = new View();
-                V.model = this.model;
-                V.onloading();
+                var V = new View({ model: this.model });
+                V.isLocal = true;
                 V.render();
                 Backbone.history.saveLocation('answer/' + goTo);
             } else {
@@ -140,7 +141,8 @@ define(function (require, exports, module) {
                 this.onloading(self.el);
 
                 var data = {
-                    'topic_id'  : this.model.get("topic").id
+                    'topic_id'  : this.model.get("topic").id,
+                    'selected'  : this.model._seleted
                 };
 
                 this.model.filter(['aChoose','aRefuse','topic_id','test_id','step','id']);

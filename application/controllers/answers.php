@@ -48,28 +48,43 @@ class Answers extends CI_Controller {
         else if( isset($_POST['model']) AND $model = $_POST['model'] )
         {
             $data = json_decode( $model );
-            $condition     = array('user_id' => $this->_user->id, 'topic_id' => $data->topic_id);
-            $obj->where($condition)->get();
-            if( !$obj->id )
-            {
-                $obj->aChoose  = implode(',', $data->aChoose);
-                $obj->topic_id = $data->topic_id;
-                $obj->user_id  = $this->_user->id;
-            }
-            if( $obj->save() )
-            {
-                echo $obj->to_json();
-            }
-            else
-            {
-                echo json_encode(array('error' => $obj->error->string));
-            }
+            $this->_save($data);
         }
         else if (isset($_POST['_method']) AND $_POST['_method'] === 'DELETE' )
         {
             $obj->delete();
         }
     }
+
+    protected function _save ($data)
+    {
+        $obj           = new Answer();
+        $condition     = array('user_id' => $this->_user->id, 'topic_id' => $data->topic_id);
+        $obj->where($condition)->get();
+
+        if( $data->selected )
+        {
+            foreach($data->selected as $tid => $choose)
+            {
+                $newData = new StdClass();
+                $newData->topic_id = $tid;
+                $newData->aChoose  = $choose;
+                $this->_save($newData);
+            }
+        }
+        $obj->aChoose  = implode(',', $data->aChoose);
+        $obj->topic_id = $data->topic_id;
+        $obj->user_id  = $this->_user->id;
+        if( $obj->save() )
+        {
+            return $obj;
+        }
+        else
+        {
+            return array('error' => $obj->error->string);
+        }
+    }
+
 
     //需要的运算太大，最好放客户端统一完成后提交，可能存在性能问题
     protected function _get_test ()
