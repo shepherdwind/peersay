@@ -9,7 +9,7 @@ class Users extends CI_Controller {
         parent::__construct();
 
         $fn = $this->uri->segment(2);
-        if($fn != 'login' AND $fn)
+        if($fn != 'login' AND $fn != 'logout' AND $fn)
         {
             if(!$this->session->userdata('id') > 0 OR $this->session->userdata("type") != "research" )
             {
@@ -113,4 +113,11 @@ class Users extends CI_Controller {
             echo json_encode($re);
         }
     }
+
+    function logout ()
+    {
+        $this->session->unset_userdata(array('id'=>'', 'type' => ''));
+        setcookie('student','', time() - 3600 , '/');
+    }
+
 }

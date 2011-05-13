@@ -155,4 +155,5 @@ class Answers extends CI_Controller {
         }
         return $array;
     }
+
 }

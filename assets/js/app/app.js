@@ -25,7 +25,6 @@ define(function(require,exports, module){
             try {
                 JSON;
             } catch (e) {
-                alert('js');
                 module.load('libs/json');
             }
             this.render();

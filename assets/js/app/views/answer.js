@@ -14,7 +14,6 @@ define(function (require, exports, module) {
         initialize : function () {
             this.model.bind('error', this.error);
             this.model.bind('change:name', this.showUser);
-            alert('a');
             //this.model.bind('change:name', this.showUser);
             //_.bindAll(this,'render');
             //this.model.bind('change', this.render);
@@ -33,7 +32,6 @@ define(function (require, exports, module) {
             var empty       = false;
             var checked     = target.checked;
             var userId      = target.value;
-            //alert('change');
             if( checked ) {
                 destination = $(".selected li:last");
                 if( ! destination.length ) {
@@ -250,8 +248,12 @@ define(function (require, exports, module) {
 
                 tip = undefined;
             });
+        },
+        exit   : function () {
+            $.get("index.php/users/logout", function () {
+                windows.close();
+            });
         }
-
     });
 
     module.exports  = View;

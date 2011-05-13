@@ -60,9 +60,6 @@
   font-size: 14px;
   color: #666;
 }
-.status-bar a {
-  display: inline-block;
-}
 .status-bar em {
   font-weight: bold;
   color: OliveDrab;
