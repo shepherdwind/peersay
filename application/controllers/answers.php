@@ -110,7 +110,7 @@ class Answers extends CI_Controller {
         foreach( $topics->all as $topic )
         {
             $json['topics'][] = $this->_filter($topic->to_array());
-            $answer           = $topic->answer->where(array('topic_id' => $topic->id))->get();
+            $answer           = $topic->answer->where(array('topic_id' => $topic->id, 'user_id' => $this->_user->id))->get();
             if ( $answer->aChoose != '' )
             {
                 $json['answers']->{$topic->id} = explode(',',$answer->aChoose);

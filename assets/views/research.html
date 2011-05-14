@@ -1,19 +1,7 @@
   <!--头部-->
   <div id="header">
     <div id="logo">{{title}}</div>
-
-    <div id="top-nav" class="ks-clear">
-
-      <ul>
-        {{#topnav}}
-        <li>
-        <a href="{{url}}">{{title}}</a>
-        </li>
-        {{/topnav}}
-      </ul>
-    </div>
-
-    <p><em id="welcome-words">{{welcome}}</em>(下面第一行是题目，相关说明在右侧栏，请点击灰色成员名单进行选择)</p>
+    <p><em id="welcome-words">{{welcome}}</em></p>
 
   </div>
   <!--头部-->
@@ -24,26 +12,12 @@
 
     <div class="col-main">
       <div class="main-wrap" id="main-wrap">
+        {{#tests}}
         <div class="article">
-          <h3>欢迎来到同伴提名测验平台</h3>
-          <p>请首先在此处登陆</p>
-          <form action="#" method="post">
-            <div class="item">
-              <label for="uName">用户名</label>
-              <input type="text" id="uName" name="uName" value="{{uName}}"/>
-            </div>
-
-            <div class="item">
-              <label for="uPassword">密码</label>
-              <input type="password" id="uPassword" name="uPassword" value=""/>
-            </div>
-            <div class="item button">
-              <a href="#" class="submit">完成</a>
-              <a href="#" class="reset">重置</a>
-            </div>
-          </form>
-
+          <h2 class="title">{{tTitle}}</h2>
+          <div class="article-content">{{{tDescribe}}}</div>
         </div>
+        {{/tests}}
       </div>
     </div>
 
@@ -53,7 +27,7 @@
           {{#aside}}
           <dt>{{title}}</dt>
           {{#items}}
-          <dd>{{section}}</dd>
+          <dd>{{{section}}}</dd>
           {{/items}}
           {{/aside}}
         </div>
@@ -64,5 +38,8 @@
   <!--主体部分-->
 
   <div id="footer">
-    <p class="copyright"> Copyright &copy; <a href="{{copylink}}" target="_blank">{{owner}}</a>&sdot;  {{copyyear}}</p>
+    <p class="copyright">
+    {{#nav}}
+      {{^first}}|{{/first}}<a href="{{url}}">{{text}}</a>
+    {{/nav}} &copy;<a href="{{copylink}}" target="_blank">{{owner}}</a>&sdot; {{copyyear}}</p>
   </div>

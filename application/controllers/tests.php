@@ -8,16 +8,20 @@ class Tests extends CI_Controller {
     {
         parent::__construct();
 
-        if(!$this->session->userdata('id') > 0 OR $this->session->userdata("type") != "research" )
+        $fn = $this->uri->segment(2);
+        if($fn !== 'lists')
         {
-            $message = array('error' => '没有权限');
-            echo json_encode($message);
-            exit();
-        }
+            if(!$this->session->userdata('id') > 0 OR $this->session->userdata("type") != "research" )
+            {
+                $message = array('error' => '没有权限');
+                echo json_encode($message);
+                exit();
+            }
 
-        $id = $this->session->userdata("id");
-        $this->_user = new User();
-        $this->_user->get_by_id($id);
+            $id = $this->session->userdata("id");
+            $this->_user = new User();
+            $this->_user->get_by_id($id);
+        }
     }
 
     public function index ($id)
@@ -58,7 +62,15 @@ class Tests extends CI_Controller {
 
     function lists()
     {
-        $t = $this->_user->test->get();
+        if( $this->_user )
+        {
+            $t = $this->_user->test->get();
+        } 
+        else
+        {
+            $t = new Test();
+            $t->get();
+        }
         //datamapper的json扩展真是强大
         echo $t->all_to_json();
     }

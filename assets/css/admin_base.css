@@ -73,6 +73,7 @@ a:focus{
 
 .left-nav{
   margin: 1em;
+  min-height: 350px;
 }
 .left-nav a{
   line-height:2em;
@@ -82,14 +83,19 @@ a:focus{
 }
 .left-nav dt{
   font-weight:bold;
-  line-height:3em;
   color:#333;
+  padding-top: 1em;
+}
+#footer {
 }
 .copyright{
-  border-top:1px dotted;
-  line-height:2em;
   text-align:center;
   margin-top:2em;
+  border-top:1px dotted;
+}
+.copyright a {
+  display: inline-block;
+  padding: 0 0.5em;
 }
 
 #v-card{
@@ -118,7 +124,11 @@ ol li{
 .left-nav h3 {
   margin: 0.5em 0;
 }
-.left-nav p {
+.article h2 {
+  font: 600 16px/1.5 arial;
+  margin-top: 10px;
+}
+.article p, .left-nav p {
   font: 14px/1.8 arial;
   text-indent: 2em;
 }

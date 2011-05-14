@@ -20,7 +20,7 @@ define(function (require, exports, module) {
             //this.render();
         },
         showUser   : function (model, name) {
-            $("#welcome-words").text("欢迎登陆：" + name + "同学");
+            $("#welcome-words").text("欢迎登录欢迎登陆：" + name + "同学。(下面第一行是题目，相关说明在右侧栏，请点击灰色成员名单进行选择)");
         },
         reset      : function () {
             this.$("form")[0].reset();
@@ -251,7 +251,7 @@ define(function (require, exports, module) {
         },
         exit   : function () {
             $.get("index.php/users/logout", function () {
-                windows.close();
+                window.location.href = '/peersay';
             });
         }
     });

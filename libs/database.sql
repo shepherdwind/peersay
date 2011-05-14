@@ -53,3 +53,15 @@ CREATE TABLE peer_tests_users (
   test_id INT( 10 ) NULL,
   user_id INT( 10 ) NULL
 )
+
+INSERT INTO `peer_nomination`.`peer_users` (
+`id` ,
+`uName` ,
+`uStudId` ,
+`uPassword` ,
+`uType`
+)
+VALUES (
+NULL , 'admin', '1013407006', '863423903f2e467bdc92c569ef13fc1aa2e36804', 'research'
+);
+/**设定初始用户admin,密码111*/

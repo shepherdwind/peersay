@@ -86,7 +86,8 @@ class Users extends CI_Controller {
             $u = new User();
             $u->uStudId = $user[0];
             $u->uName   = $user[1];
-            $u->uTyep   = 'student';
+            $u->uPassword = $user[0];//密码等于用户的学号
+            $u->uType   = 'student';
             if (! $u->save())
             {
                 $saved = FALSE;
@@ -103,21 +104,25 @@ class Users extends CI_Controller {
         $password = $_POST['password'];
         $re       = array();
         $u        = new User();
-        $u->get_where(array("uName" => $name));
-        if ( $u->uPassword == $password)
+        if ( $u->login($name,$password))
         {
             $re['model']   = $u->to_array();
             $re['success'] = TRUE;
             $this->session->set_userdata(array( 'type' => $u->uType, 'id' => $u->id));
             setcookie($u->uType, 1, time() + 3600 , '/');
             echo json_encode($re);
+        } else {
+            echo json_encode(array('error' => '用户名或密码错误' ));
         }
     }
 
     function logout ()
     {
+        $this->load->helper('url');
         $this->session->unset_userdata(array('id'=>'', 'type' => ''));
         setcookie('student','', time() - 3600 , '/');
+        setcookie('research','', time() - 3600 , '/');
+        echo 'Logout success! <a href="' .site_url(). '">Click here</a>back to homepage';
     }
 
 }

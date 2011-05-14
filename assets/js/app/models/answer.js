@@ -40,12 +40,16 @@ define(function(require,exports, module){
             var topicIdNow = topics[step - 1].id;
 
             //保存
-            this._seleted[topicId] = this.get("aChoose");
+            //当使用退回时，因为前面题目都引用了this.get("aChoose"),也就是attributes中的
+            //aChoose，随意当this.attributes.aChoose改变时，所有的数据都跟着改变了
+            //这里必须使用clone
+            this._seleted[topicId] = _.clone(this.get("aChoose"));
 
             //new choose
             this.set({
                 aChoose : this._seleted[topicIdNow] || []
             });
+
             //console.log(this._seleted, this.get('aChoose'));
         },
         //进入下一步，数据准备
@@ -94,13 +98,15 @@ define(function(require,exports, module){
         },
         selectUser  : function (id) {
             var aChoose = this.get('aChoose');
+            id   = parseInt(id,10);
             aChoose.push(parseInt(id, 10) );
             this.set({'aChoose': aChoose});
         },
         deleteUser  : function (id) {
             var aChoose = this.get('aChoose');
+            id   = parseInt(id,10);
             this.set({
-                'aChoose' : _.reject(aChoose, function (num) { return id == num; })
+                'aChoose' : _.reject(aChoose, function (num) { num = parseInt(num,10); return id == num; })
             });
         },
         isFull      : function () {

@@ -8,30 +8,26 @@ class User extends DataMapper {
         'uName' => array(
             'label' => 'user name',
             'rules' => array('required','trim','max-length' => 100)
+        ),
+        'uPassword' => array (
+            'label' => 'password',
+            'rules' => array('trim','required','min-length' => 3, 'encrypt')
         )
     );
 
-    function getUser()
+    protected function _encrypt($field)
     {
+        // Don't encrypt an empty string
+        if (!empty($this->{$field}))
+        {
+            $this->{$field} = sha1($this->uStudId. $this->{$field});
+        }
     }
 
-    /**
-     *
-     * 用户登录接口
-     *
-     * @return FAlSE | Array 登录信息
-     */
-    protected function login ()
+    function login ($name, $password)
     {
-    }
-
-    function isPassed ($fuc = 'index')
-    {
-        return TRUE;
-    }
-
-    function getType()
-    {
-        return USER_RESERCHER;
+        $this->get_where(array("uName" => $name));
+        $password = sha1($this->uStudId . $password);
+        return $this->uPassword === $password;
     }
 }

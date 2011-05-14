@@ -7,16 +7,38 @@ define(function(require,exports, module){
         Busy     = require('libs/busy'),
         Backbone = require('libs/backbone'),
         User     = require("app/models/user"),
+        Tests    = require("app/models/tests"),
         content  = $('#wrap');
 
+    var articles = new Tests();
     var App      = Backbone.View.extend({
         
         events : {
             "click .reset" : 'reset',
-            "click .submit": 'login'
+            "click .submit": 'login',
+            "click #login" : 'popLogin'
         },
         reset      : function () {
             this.$("form")[0].reset();
+            return false;
+        },
+        popLogin   : function () {
+            var self = this;
+            var json = {
+                            title: '登录',
+                            buttons : [
+                                {
+                                    text: '登录',
+                                    click : function () {
+                                        $(this).dialog("close");
+                                        self.login();
+                                    }
+                                }
+                            ],
+                            url  : 'assets/views/login.html'
+                        
+                        };
+            this._tips('popwindow',json);
             return false;
         },
         initialize : function () {
@@ -27,7 +49,20 @@ define(function(require,exports, module){
             } catch (e) {
                 module.load('libs/json');
             }
-            this.render();
+
+            Backbone.emulateHTTP = true;
+            Backbone.emulateJSON = true;
+            this.onloading();
+            var self   = this;
+            articles.fetch({
+                success : function () {
+                    self.render.apply(self);
+                },
+                error   : function () {
+                    alert("获取数据发生错误");
+                    self.trigger("loaded");
+                }
+            });
         },
         render :  function () {
             var self    = this;
@@ -35,6 +70,7 @@ define(function(require,exports, module){
             $.ajax({
                 url      : 'assets/views/research.html',
                 success  : function (data) {
+                    config.tests = articles.toJSON();
                     var html  = Mustache.to_html(data, config);
                     $(self.el).html(html);
                     content.html(self.el);
@@ -46,11 +82,14 @@ define(function(require,exports, module){
                     } else if( cookie.indexOf('research') > -1) {
                         self._goToPage("research");
                     }
+                    self.trigger("loaded");
+                },
+                error    : function () {
+                    alert("加载数据发生错误，请重试");
+                    self.trigger("loaded");
                 },
                 dataType : 'html'
             });
-            Backbone.emulateHTTP = true;
-            Backbone.emulateJSON = true;
         },
         login       : function ( ) {
             var self = this,
@@ -73,6 +112,8 @@ define(function(require,exports, module){
                     } else {
                         self._goToPage('student');
                     }
+                } else if ( response.error ) {
+                    self._tips('error',response.error);
                 }
 
                 self.trigger('loaded');

@@ -8,3 +8,4 @@ form .item, form .type-radios { padding-bottom: 6px; }
 
 .opration-bar { position: absolute; }
 .opration-bar a { display: inline-block; }
+.pop .item input { width: 22em; }
