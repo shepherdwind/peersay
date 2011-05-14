@@ -52,9 +52,9 @@ CREATE TABLE peer_tests_users (
   id INT( 10 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'id',
   test_id INT( 10 ) NULL,
   user_id INT( 10 ) NULL
-)
+);
 
-INSERT INTO `peer_nomination`.`peer_users` (
+INSERT INTO `peer_users` (
 `id` ,
 `uName` ,
 `uStudId` ,

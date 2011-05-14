@@ -8,6 +8,7 @@
   </head>
   <body class="w866">
     <div class="wrap" id="wrap">
+      加载中…
     </div>
   </body>
 </html>
