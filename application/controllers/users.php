@@ -81,12 +81,16 @@ class Users extends CI_Controller {
         $test   = new Test();
         $test->get_by_id($testid);
 
+        $this->load->helper("pinyin");
+
         foreach($users as $user)
         {
             $u = new User();
             $u->uStudId = $user[0];
-            $u->uName   = $user[1];
-            $u->uPassword = $user[0];//密码等于用户的学号
+            $u->uName   = str_replace(' ','',$user[1]);
+            //$u->uPassword = $user[0];//密码等于用户的学号
+            $pinyin     = get_pinyin($u->uName);
+            $u->uPassword = str_replace('_','',$pinyin);//用拼音作为密码
             $u->uType   = 'student';
             if (! $u->save())
             {

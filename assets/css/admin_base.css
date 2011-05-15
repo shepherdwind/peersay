@@ -47,7 +47,7 @@ a:focus{
 .grid-s240m0 .main-wrap{
   margin-right:227px;
   border-top:solid 1px #D2DBF4;
-  padding: 1em;
+  padding: 1em 1em 0 0;
 }
 
 /**
@@ -115,7 +115,11 @@ a:focus{
 .v-bar input{
   padding:5px 14px;
 }
-
+.loading-tips {
+  font: 700 14px/1.8 arial;
+  text-align: center;
+  padding: 4em;
+}
 ol{
   list-style:decimal inside none;
 }
@@ -128,7 +132,7 @@ ol li{
   font: 600 16px/1.5 arial;
   margin-top: 10px;
 }
-.article p, .left-nav p {
+.article-content, .left-nav {
   font: 14px/1.8 arial;
-  text-indent: 2em;
+  padding-top: 0.5em;
 }

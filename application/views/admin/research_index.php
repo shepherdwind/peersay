@@ -8,7 +8,7 @@
   </head>
   <body class="w866">
     <div class="wrap" id="wrap">
-      加载中…
+      <p class="loading-tips">加载中,请稍后，第一次加载可能需要时间稍长…</p>
     </div>
   </body>
 </html>

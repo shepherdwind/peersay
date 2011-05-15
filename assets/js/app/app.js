@@ -24,6 +24,7 @@ define(function(require,exports, module){
         },
         popLogin   : function () {
             var self = this;
+            this.onloading();
             var json = {
                             title: '登录',
                             buttons : [
@@ -36,7 +37,6 @@ define(function(require,exports, module){
                                 }
                             ],
                             url  : 'assets/views/login.html'
-                        
                         };
             this._tips('popwindow',json);
             return false;
@@ -70,7 +70,7 @@ define(function(require,exports, module){
             $.ajax({
                 url      : 'assets/views/research.html',
                 success  : function (data) {
-                    config.tests = articles.toJSON();
+                    config.tests = articles.toJSON()[0];
                     var html  = Mustache.to_html(data, config);
                     $(self.el).html(html);
                     content.html(self.el);
@@ -97,8 +97,8 @@ define(function(require,exports, module){
                     name     : $("#uName").val(),
                     password : $("#uPassword").val()
                 };
-            this.onloading();
 
+            this.onloading();
             $.post("index.php/users/login", data, function (response) {
                 if(response.success) {
                     //如果是研究员，查看自己的列表
@@ -163,16 +163,17 @@ define(function(require,exports, module){
                 loading.remove();
             });
         },
-        _tips     : function (type, message) {
+        //fn绑定事件
+        _tips     : function (type, message, fn) {
             var self = this;
-            module.load('app/tips', function (Tips) {
+            fn      = fn || function () {};
+            module.load('app/tips', function (Tips ) {
                 var tip = new Tips({'position': ['center',100]});
 
                 //结束加载状态
                 self.trigger("loaded");
                 if( type in tip )
                     tip[type](message);
-
                 tip = undefined;
             });
         }

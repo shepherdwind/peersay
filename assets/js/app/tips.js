@@ -8,6 +8,7 @@ define(function (require, exports, module) {
         this.initialize.apply(this,arguments);
     };
 
+
     _.extend(Tips.prototype, {
 
         initialize : function (config) {
@@ -40,6 +41,9 @@ define(function (require, exports, module) {
             show     : 'slide',
             title    : '提示',
             hide     : 'explode',
+            close    : function () {
+                $(this).remove();
+            },
             buttons  : [{
                 text : '确定',
                 click: function () {
