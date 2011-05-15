@@ -10,17 +10,16 @@
     </div>
 
     <div class="user-content" id="user-content">
-      <ul class="selected connected ks-clear">
+      <!-- <ul class="selected connected ks-clear">
       {{#users}}
         {{#selected}}
-        <!-- <li data-id="{{id}}" data-selected="1"><a href="#" class="user-name">{{uName}}</a></li> -->
         <li>
           <label for="user-{{id}}">{{uName}}</label>
           <input id="user-{{id}}" value="{{id}}" name="users" type="checkbox" checked="checked"/>
         </li> 
         {{/selected}}
       {{/users}}
-      </ul>
+      </ul> -->
 
       <ul class="unselected connected ks-clear">
       {{#users}}
@@ -30,6 +29,13 @@
           <input id="user-{{id}}" name="users" type="checkbox" value="{{id}}"/>
         </li>
         {{/selected}}
+        {{#selected}}
+        <li>
+          <label for="user-{{id}}">{{uName}}</label>
+          <input id="user-{{id}}" value="{{id}}" name="users" type="checkbox" checked="checked"/>
+        </li> 
+        {{/selected}}
+
       {{/users}}
       </ul>
     </div>

@@ -132,7 +132,13 @@ ol li{
   font: 600 16px/1.5 arial;
   margin-top: 10px;
 }
-.article-content, .left-nav {
+.article-content {
   font: 14px/1.8 arial;
   padding-top: 0.5em;
+}
+.left-nav{
+  font: 12px/1.6 arial;
+}
+#user-content .ui-button-text {
+  font: 700 14px arial;
 }

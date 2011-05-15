@@ -50,6 +50,7 @@ define(function (require, exports, module) {
         },
         _moveTo    : function (origin,destination,empty) {
             //alert($.browser.msie);
+            /*
             var offset     = destination.offset();
             var style      = origin.offset();
             var styleReset = { position: 'inherit', zIndex : '', left : '', top : '' };
@@ -69,6 +70,7 @@ define(function (require, exports, module) {
 
                 origin.css(styleReset);
             });
+            */
         },
         render     : function () {
             var self  = this,
