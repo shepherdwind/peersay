@@ -24,7 +24,9 @@
         <td class="opration">
           <a href="#tests/{{id}}" class="edit">修改</a>
           <a href="#" data-id="{{id}}" class="del">删除</a>
-          <a href="#topics/lists/{{id}}" class="addItems">查看</a>
+          <a href="#topics/lists/{{id}}" class="addItems">查看</a><br/>
+          <a href="index.php/tests/download/{{id}}" target="_blank">源数据</a>
+          <a href="index.php/tests/download/{{id}}/1" target="_blank">结果</a>
         </td>
       </tr>
     {{/collection}}
