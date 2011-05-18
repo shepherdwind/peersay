@@ -17,4 +17,5 @@ assets/js/libs/ckeditor/lang/
 assets/js/libs/ckeditor/plugins/
 assets/js/libs/ckeditor/skins/
 assets/js/libs/ckeditor/themes/
-application/config/tmp/
+application/config/config.php
+application/config/database.php

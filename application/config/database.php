@@ -42,8 +42,8 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = '';
-$db['default']['password'] = '';
+$db['default']['username'] = 'root';
+$db['default']['password'] = 'efly';
 $db['default']['database'] = 'peer_nomination';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = TABLE_PREX;
