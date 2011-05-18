@@ -12,8 +12,14 @@
 
 ##同伴提名
 
-同伴评估的方法最早出现于品格教育调查测验[(Character Education Inquiry, CEI)][(Anastasi,1988)]。
-CEI主要作为儿童品格性质发展的研究工具，其研究方法中包括“猜猜谁……技术，
-这通常被认为是同伴提名技术的前身。
+同伴评估的方法最早出现于品格教育调查测验(Character Education Inquiry, CEI)(Anastasi,1988)。
+CEI主要作为儿童品格性质发展的研究工具，其研究方法中包括“猜猜谁“方法,
+这通常被认为是同伴提名技术使用的先驱。Jareki(1959)最初尝试在学校使用同伴
+作为评估学生能力的标准。同伴提名法的基本形式是：让被试根据某种品质或者
+行为特征的描述，从同伴团体中中出最符合这些特征描述的人(庞丽娟,1994)。
+在测试过程中通常会给被试提供一份被选人的名单(团体所有人)让其选择，而在一些
+学校之间的同伴提名法研究，则可以不提供。
 
-[(Anastasi,1988)] Anastasi,A.(1988). Psychological testing(6th ed.). New York:Macmilla.
+- Anastasi,A.(1988). Psychological testing(6th ed.). New York:Macmilla.
+- 庞丽娟.(1944). 同伴提名法与幼儿同伴交往研究[J]. 心理发展与教育. 18-21
+- Gagne, F. (1989). Peer Nominations as a Psychometric Instrument: Many Questions Asked but Few Answered. Gifted Child Quarterly, 33(2), 53-58.
