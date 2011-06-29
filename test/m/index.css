@@ -1,0 +1,116 @@
+body {
+  font-family: 12px/1.5 arial;
+  -webkit-text-size-adjust: none;
+}
+section h2{
+  display:none;
+}
+header {
+  height: 210px;
+  background: url(images/header.jpg) no-repeat left top;
+  background-image:url(images/header.jpg),url(images/header_1.jpg);
+  background-repeat:no-repeat,repeat-x;
+  background-position:center top,left top;
+}
+header p{
+  text-indent:-999em;
+}
+header h1{
+  background-image:url(images/header_left.jpg),url(images/header_right.jpg);
+  background-repeat:no-repeat,no-repeat;
+  background-position:left top,right top;
+}
+header h1 div{
+  background:url(images/header_h1.png),url(images/header_div_1.jpg);
+  background-position:center 4px,left top;
+  background-repeat:no-repeat,repeat-x;
+  border:none;
+  border-bottom-left-radius:16px;
+  border-bottom-right-radius:16px;
+  /*box-shadow:10px 10px 10px gray;*/
+  margin:0 9px 0 9px;
+  background-clip:margin;
+  height:74px;
+  text-indent:-999em;
+}
+nav{
+  text-align:center;
+  margin-top:31px;
+}
+nav a{
+  font:400 21px/36px arial;
+  text-decoration:none;
+  color:#000;
+}
+nav h2{
+  text-indent:-999em;
+}
+nav ul li{
+  display:inline-block;
+}
+section.search{
+  line-height:49px;
+  height:49px;
+  background:url(images/form.jpg) repeat-x left top;
+  border-top:solid 1px #cccccc;
+}
+section.search form{
+  width: 90%;
+  margin:0 auto;
+}
+section.search form input[type="search"]{
+  width: 70%;
+  height: 2em;
+  border:none;
+  padding:0;
+  margin:0;
+}
+section.search form input[type="submit"]{
+  width: 4em;
+  height: 2em;
+}
+.list_tab{
+  background:url(images/list_tab.jpg) repeat-x left top;
+}
+.list_tab{
+  height:42px;
+  padding:0 9px;
+  border-top:2px solid #07386a;
+  border-bottom:2px solid #07386a;
+}
+.list_tab li { display: inline; }
+.list_tab a {
+  display:inline-block;
+  width:19%;
+  height:41px;
+  text-align:center;
+  font: 120%/2 arial;
+  position:relative;
+  top:3px;
+  text-decoration:none;
+  color: #fff;
+}
+.list_tab a:target {
+  background:url(images/nav_tab_li.jpg) repeat-x top left;
+  border-top-left-radius:9px;
+  border-top-right-radius:9px;
+  color:#000;
+}
+section.newslist{
+  background-color:#f3f3f3;
+}
+section.newslist ul.list{
+  font: 120%/1.5 arial;
+}
+section.newslist ul.list li{
+  padding:0.5em 1em;
+  border-bottom:solid #cfcfcf 1px;
+}
+section.newslist ul.list li a{
+  color:#000;
+  text-decoration:none;
+}
+footer{
+  background-color:#f3f3f3;
+  text-align: center;
+}
